@@ -8,6 +8,12 @@ The main goal of the project is not only to generate answers, but to
 determine whether a change to the RAG pipeline actually improves or
 regresses its performance.
 
+## Evaluation Dashboard
+
+Interactive dashboard showing the evaluation results for Config A vs Config B.
+
+[Open RAG Evaluation Dashboard](https://script.google.com/macros/s/AKfycbzVBVcmop2OgMq2J7iVlE8yK-4cf0YvuDqWkywEvUaqZ2yBB7EvLWR19clQfYslt5nh/exec)
+
 ---
 
 ## 1. Project Overview
