@@ -1,0 +1,13 @@
+PixelCore
+
+PixelCore is a technology company founded in 2017 by James Carter and Rina Kapoor. The company is headquartered in Los Angeles, California. PixelCore develops software for media processing and artificial intelligence.
+
+In 2020, PixelCore launched RenderFlow, a media processing platform that helps companies process and transform large collections of images and videos.
+
+In 2023, the company introduced DetectAI, an image analysis platform designed to identify objects and patterns in visual data. DetectAI is used by organizations that need automated image classification and detection.
+
+PixelCore operates offices in Los Angeles, Vancouver, and Tokyo. Its computer vision research team is based in Tokyo.
+
+RenderFlow focuses on processing media files, while DetectAI focuses on extracting information from images. Both products work with visual data but perform different tasks.
+
+PixelCore primarily serves media companies, advertising organizations, and retail businesses.

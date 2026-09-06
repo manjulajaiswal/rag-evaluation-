@@ -1,0 +1,13 @@
+Synapse Systems
+
+Synapse Systems is a software company founded in 2018 by Daniel Park and Olivia Grant. The company is headquartered in San Diego, California. Synapse Systems develops tools for data engineering and machine learning operations.
+
+In 2020, Synapse Systems released PipelineX, a data pipeline platform that helps engineering teams move and transform data between different systems.
+
+In 2022, the company launched ModelWatch, a machine learning monitoring platform designed to detect changes in model behavior after deployment. ModelWatch provides alerts when model performance or input data changes significantly.
+
+Synapse Systems operates offices in San Diego, Seattle, and Singapore. Its machine learning operations research team is based in Singapore.
+
+PipelineX focuses on moving and transforming data, while ModelWatch focuses on monitoring deployed machine learning models. Both products are designed to support production data systems.
+
+Synapse Systems serves technology, healthcare, and financial services organizations that operate large data and machine learning infrastructure.

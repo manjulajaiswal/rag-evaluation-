@@ -1,0 +1,13 @@
+CloudForge
+
+CloudForge is a technology company founded in 2019 by Ethan Wilson and Priya Nair. The company is headquartered in Seattle, Washington. CloudForge was created to help organizations manage computing resources across multiple cloud providers.
+
+In 2021, CloudForge released Nimbus, a cloud management platform that allows companies to monitor and control infrastructure deployed across different cloud environments. Nimbus provides centralized tools for managing computing resources and cloud costs.
+
+In 2024, CloudForge introduced StreamIQ, a real-time analytics platform designed for companies that need to process continuously generated data. StreamIQ is particularly useful for logistics companies that need to analyze information from vehicles and delivery systems.
+
+CloudForge operates engineering offices in Seattle, Denver, and Dublin. Its cloud infrastructure research team is based in Denver and focuses on improving systems for managing distributed computing resources.
+
+Nimbus and StreamIQ serve different purposes within CloudForge. Nimbus focuses on managing cloud infrastructure across providers, while StreamIQ focuses on analyzing continuously generated data in real time.
+
+CloudForge works with organizations in logistics, retail, and technology. The company has grown primarily by developing tools that simplify the management and analysis of large-scale computing systems.

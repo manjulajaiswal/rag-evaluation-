@@ -1,0 +1,13 @@
+TerraCompute
+
+TerraCompute is a computing technology company founded in 2016 by Robert Evans and Kavya Rao. The company is headquartered in Denver, Colorado. TerraCompute develops infrastructure software for organizations running large computational workloads.
+
+In 2019, TerraCompute introduced Grid, a distributed computing platform designed to divide computational workloads across multiple machines. Grid is commonly used for scientific and engineering workloads.
+
+In 2023, TerraCompute launched EdgeRun, a low-latency computing platform designed to run applications closer to users and connected devices. EdgeRun is used by companies that require rapid responses from distributed applications.
+
+TerraCompute has offices in Denver, Dallas, and Stockholm. Its distributed systems research team operates from Stockholm.
+
+Grid focuses on distributing computational workloads across machines, while EdgeRun focuses on reducing latency by placing computation closer to users and devices.
+
+TerraCompute works with engineering, telecommunications, and technology companies.

@@ -1,0 +1,62 @@
+[
+  {
+    "id": "q01",
+    "question": "When was NovaTech founded and who founded it?",
+    "expected_answer": "NovaTech was founded in 2018 by Maya Chen and Daniel Brooks.",
+    "relevant_source": "company_01.txt"
+  },
+  {
+    "id": "q02",
+    "question": "What is the primary purpose of Atlas at NovaTech?",
+    "expected_answer": "Atlas is a platform designed for distributed data processing.",
+    "relevant_source": "company_01.txt"
+  },
+  {
+    "id": "q03",
+    "question": "Which Vertex Labs product is designed for deploying machine learning models?",
+    "expected_answer": "VectorFlow is designed to help companies deploy predictive machine learning models into production environments.",
+    "relevant_source": "company_02.txt"
+  },
+  {
+    "id": "q04",
+    "question": "What does Nimbus help organizations manage?",
+    "expected_answer": "Nimbus helps organizations monitor and control infrastructure deployed across different cloud environments, including computing resources and cloud costs.",
+    "relevant_source": "company_03.txt"
+  },
+  {
+    "id": "q05",
+    "question": "Which DataSphere product is used to evaluate machine learning model performance?",
+    "expected_answer": "Insight is used to evaluate predictive models and identify changes in model performance over time.",
+    "relevant_source": "company_04.txt"
+  },
+  {
+    "id": "q06",
+    "question": "When did QuantumWorks launch Flux and what is it designed to do?",
+    "expected_answer": "QuantumWorks launched Flux in 2023. It is a high-performance computing platform designed to accelerate machine learning and scientific workloads.",
+    "relevant_source": "company_05.txt"
+  },
+  {
+    "id": "q07",
+    "question": "What problem does BrightAI's VisionPro solve?",
+    "expected_answer": "VisionPro helps manufacturers detect defects in products using automated image analysis.",
+    "relevant_source": "company_06.txt"
+  },
+  {
+    "id": "q08",
+    "question": "What is the difference between PipelineX and ModelWatch at Synapse Systems?",
+    "expected_answer": "PipelineX focuses on moving and transforming data, while ModelWatch focuses on monitoring deployed machine learning models.",
+    "relevant_source": "company_07.txt"
+  },
+  {
+    "id": "q09",
+    "question": "Which TerraCompute product is designed to reduce latency by placing computation closer to users and devices?",
+    "expected_answer": "EdgeRun is designed to reduce latency by placing computation closer to users and connected devices.",
+    "relevant_source": "company_08.txt"
+  },
+  {
+    "id": "q10",
+    "question": "What does NeuralEdge's InferNet platform do?",
+    "expected_answer": "InferNet is a machine learning inference platform designed to serve predictive models at high throughput.",
+    "relevant_source": "company_09.txt"
+  }
+]

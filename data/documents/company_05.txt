@@ -1,0 +1,13 @@
+QuantumWorks
+
+QuantumWorks is a technology company founded in 2015 by Marcus Lee and Elena Petrova. The company is headquartered in New York City, New York. QuantumWorks develops software for scientific computing and advanced data analysis.
+
+In 2018, QuantumWorks released QSim, a simulation platform designed for researchers working with complex scientific models. QSim provides tools for running computational experiments and analyzing simulation results.
+
+In 2023, the company launched Flux, a high-performance computing platform designed to accelerate machine learning and scientific workloads. Flux is primarily used by research organizations that require large amounts of computational capacity.
+
+QuantumWorks operates offices in New York, Boston, and Zurich. Its scientific computing research team is based in Zurich and focuses on improving computational efficiency.
+
+QSim is mainly used for scientific simulation, while Flux focuses on accelerating computational workloads. Although both products require significant computing resources, they serve different primary purposes.
+
+QuantumWorks works with research institutions, pharmaceutical companies, and engineering organizations.

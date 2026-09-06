@@ -1,0 +1,13 @@
+DataSphere
+
+DataSphere is a technology company founded in 2017 by Lucas Martin and Anika Shah. The company is headquartered in Boston, Massachusetts. DataSphere specializes in software for storing, processing, and analyzing large datasets.
+
+In 2019, DataSphere launched Horizon, a distributed data warehouse designed to help organizations analyze large volumes of structured and semi-structured data. Horizon is used by companies that need to run analytical workloads across large datasets.
+
+In 2022, DataSphere introduced Insight, a machine learning analytics platform that helps data teams evaluate predictive models and identify changes in model performance over time. Insight provides tools for analyzing model results and generating performance reports.
+
+DataSphere maintains engineering offices in Boston, Chicago, and Amsterdam. Its data systems research group operates from Amsterdam and studies methods for improving large-scale data processing.
+
+Horizon and Insight address different stages of the data workflow. Horizon is primarily used for storing and analyzing large datasets, while Insight is focused on evaluating machine learning models and their results.
+
+DataSphere serves organizations in healthcare, retail, and financial services. Its products are designed for teams that work with large amounts of business and analytical data.

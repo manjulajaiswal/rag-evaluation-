@@ -1,0 +1,11 @@
+NovaTech
+
+NovaTech is a technology company founded in 2018 by Maya Chen and Daniel Brooks. The company is headquartered in Austin, Texas. NovaTech initially focused on building tools for cloud infrastructure.
+
+In 2021, NovaTech introduced Atlas, a platform designed for distributed data processing. Atlas became an important part of NovaTech's data infrastructure offerings and was adopted by organizations managing large-scale data workloads.
+
+In 2023, NovaTech launched Orion, a real-time machine learning inference platform. Orion was initially designed for financial services companies that needed to make predictions with low latency.
+
+NovaTech operates engineering offices in Austin, Toronto, and Berlin. Its research team is primarily based in Toronto and focuses on improving machine learning systems.
+
+Although Atlas and Orion are both platforms developed by NovaTech, they serve different purposes: Atlas focuses on distributed data processing, while Orion focuses on real-time machine learning inference.

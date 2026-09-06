@@ -1,0 +1,13 @@
+BrightAI
+
+BrightAI is an artificial intelligence company founded in 2020 by Sarah Kim and Michael Turner. The company is headquartered in Chicago, Illinois. BrightAI develops machine learning software for business applications.
+
+In 2021, BrightAI introduced VisionPro, a computer vision platform designed to help manufacturers detect defects in products using automated image analysis.
+
+In 2024, BrightAI launched AssistIQ, an AI assistant platform designed for customer support teams. AssistIQ can analyze customer conversations and help support agents generate responses.
+
+BrightAI has offices in Chicago, Atlanta, and Toronto. Its computer vision research group is located in Atlanta and focuses on improving automated visual inspection systems.
+
+VisionPro focuses on analyzing images from manufacturing processes, while AssistIQ focuses on customer support conversations. Both products use machine learning but are designed for different business applications.
+
+BrightAI primarily serves manufacturing, retail, and customer service organizations.
