@@ -1,0 +1,13 @@
+TrackNetV3 for Shuttlecock Tracking
+
+TrackNetV3 is a deep-learning model designed specifically for badminton shuttlecock tracking. It extends the TrackNet approach for detecting the position of a small and fast-moving shuttlecock in video.
+
+TrackNetV3 uses consecutive video frames and predicts shuttlecock locations using heatmap-based processing. The system also includes trajectory rectification to improve the continuity and reliability of shuttlecock tracking.
+
+A related component called InpaintNet can be used to reconstruct missing parts of the predicted shuttle trajectory. This is useful when the shuttlecock becomes temporarily invisible or the detector misses it in some frames.
+
+TrackNetV3 can produce frame-level shuttlecock coordinates that can be used for further trajectory and event analysis. These outputs can support tasks such as detecting hits, estimating landing positions, and analyzing shuttle movement.
+
+TrackNetV3 is specialized for the shuttlecock and should not be confused with a general player detector such as YOLO. In a complete badminton analysis pipeline, TrackNetV3 and YOLO can therefore perform complementary roles.
+
+Reported results on the Shuttlecock Trajectory Dataset show substantially higher tracking performance for TrackNetV3 than earlier TrackNet versions and the YOLOv7 baseline.

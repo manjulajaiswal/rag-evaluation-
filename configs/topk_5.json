@@ -1,0 +1,8 @@
+{
+  "experiment": "top_k",
+  "config_name": "topk_5",
+  "chunk_size": 80,
+  "overlap": 20,
+  "top_k": 5,
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2"
+}

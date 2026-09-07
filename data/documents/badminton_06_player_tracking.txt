@@ -1,0 +1,11 @@
+Badminton Player Tracking
+
+Player tracking connects player detections across consecutive video frames. Instead of treating every detection as a new person, a tracking algorithm assigns a consistent identity to each player while they move around the court.
+
+Multi-object tracking methods such as ByteTrack can be combined with object detectors to maintain player trajectories. In badminton analysis, tracking is commonly used to follow the two players during a rally.
+
+The resulting trajectory can contain the player's position over time. This information can be transformed into court coordinates when the camera view and court geometry are known.
+
+Player tracking enables higher-level measurements such as distance covered, movement speed, court coverage, and spatial positioning. It can also support tactical analysis by showing how players move between offensive and defensive positions.
+
+Player tracking is different from shuttlecock tracking. Player tracking follows relatively large human objects, while shuttlecock tracking follows a very small and fast-moving object. A complete badminton analysis system may use separate models for both tasks.

@@ -1,0 +1,11 @@
+TrackNet for Badminton
+
+TrackNet is a deep-learning approach designed for tracking small and fast-moving objects in sports videos. It became particularly relevant to badminton because the shuttlecock occupies only a small number of pixels and can move quickly between consecutive frames.
+
+Instead of relying only on a single image, TrackNet uses multiple consecutive video frames as input and predicts the location of the shuttlecock. The prediction can be represented as a heatmap showing where the shuttlecock is likely to be located.
+
+TrackNet-based systems can therefore provide shuttlecock coordinates for badminton videos. These coordinates can be connected across frames to produce a trajectory.
+
+Later versions such as TrackNetV3 provide additional functionality for badminton shuttlecock tracking and trajectory processing. Open-source implementations of TrackNetV3 are used in badminton analysis pipelines for shuttle detection and tracking.
+
+TrackNet is primarily concerned with the shuttlecock rather than the players. Player detection, player tracking, pose estimation, and court analysis are separate components that can be combined with TrackNet in a larger badminton video-analysis system.

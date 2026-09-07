@@ -1,0 +1,86 @@
+[
+  {
+    "experiment": "chunk_size",
+    "configuration": "chunk_small",
+    "chunk_size": 80,
+    "overlap": 20,
+    "top_k": 3,
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "retrieval_precision": 0.6,
+    "retrieval_recall": 0.638888888888889,
+    "faithfulness": 1.0,
+    "correctness": 0.8
+  },
+  {
+    "experiment": "chunk_size",
+    "configuration": "chunk_large",
+    "chunk_size": 160,
+    "overlap": 20,
+    "top_k": 3,
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "retrieval_precision": 0.6,
+    "retrieval_recall": 0.75,
+    "faithfulness": 1.0,
+    "correctness": 0.9333333333333333
+  },
+  {
+    "experiment": "top_k",
+    "configuration": "topk_2",
+    "chunk_size": 80,
+    "overlap": 20,
+    "top_k": 2,
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "retrieval_precision": 0.7,
+    "retrieval_recall": 0.638888888888889,
+    "faithfulness": 1.0,
+    "correctness": 0.6666666666666666
+  },
+  {
+    "experiment": "top_k",
+    "configuration": "topk_5",
+    "chunk_size": 80,
+    "overlap": 20,
+    "top_k": 5,
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "retrieval_precision": 0.56,
+    "retrieval_recall": 0.861111111111111,
+    "faithfulness": 1.0,
+    "correctness": 0.8666666666666667
+  },
+  {
+    "experiment": "embedding_model",
+    "configuration": "embed_minilm",
+    "chunk_size": 80,
+    "overlap": 20,
+    "top_k": 3,
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "retrieval_precision": 0.6,
+    "retrieval_recall": 0.638888888888889,
+    "faithfulness": 1.0,
+    "correctness": 0.8
+  },
+  {
+    "experiment": "embedding_model",
+    "configuration": "embed_mpnet",
+    "chunk_size": 80,
+    "overlap": 20,
+    "top_k": 3,
+    "embedding_model": "sentence-transformers/all-mpnet-base-v2",
+    "retrieval_precision": 0.5777777777777777,
+    "retrieval_recall": 0.65,
+    "faithfulness": 1.0,
+    "correctness": 0.7333333333333333
+  },
+  {
+    "experiment": "final_combined",
+    "configuration": "final_combined",
+    "chunk_size": 160,
+    "overlap": 20,
+    "top_k": 5,
+    "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+    "retrieval_precision": 0.4666666666666667,
+    "retrieval_recall": 0.861111111111111,
+    "faithfulness": 1.0,
+    "correctness": 0.8666666666666667
+  }
+]

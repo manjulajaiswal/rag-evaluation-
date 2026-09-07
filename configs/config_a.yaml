@@ -1,7 +1,0 @@
-name: config_a
-
-chunk_size: 80
-overlap: 20
-top_k: 3
-
-collection_name: rag_config_a

@@ -1,0 +1,8 @@
+{
+  "experiment": "embedding_model",
+  "config_name": "embed_mpnet",
+  "chunk_size": 80,
+  "overlap": 20,
+  "top_k": 3,
+  "embedding_model": "sentence-transformers/all-mpnet-base-v2"
+}

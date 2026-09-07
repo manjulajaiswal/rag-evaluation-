@@ -1,0 +1,11 @@
+Badminton Shuttlecock Detection
+
+Detecting the shuttlecock is one of the important computer-vision tasks in badminton video analysis. Unlike players, the shuttlecock is extremely small in a video frame and can move at very high speed. Motion blur, similar colors to the background, lighting changes, and partial visibility can make detection difficult.
+
+A badminton analysis system must locate the shuttlecock in individual video frames before it can perform tasks such as tracking its trajectory or detecting player hits. The output of detection can be represented using the position of the shuttlecock, commonly as its X and Y coordinates in the video frame.
+
+Traditional object-detection approaches can struggle when the target occupies only a very small portion of an image. For this reason, badminton-specific approaches such as TrackNet were developed to detect and track the shuttlecock using information from consecutive frames.
+
+Reliable shuttlecock detection is important because errors at this stage can affect later stages of the pipeline. Missing the shuttlecock in several frames can create gaps in its trajectory and make it harder to determine events such as hits or landing positions.
+
+In a complete badminton video-analysis system, shuttlecock detection is therefore an early stage that provides visual information required by downstream tracking and event-analysis components.

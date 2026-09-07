@@ -1,0 +1,11 @@
+Badminton Court Analysis
+
+Court analysis determines the geometry and spatial structure of the badminton court in video footage. This information allows player and shuttle positions to be interpreted relative to the court instead of only using image pixel coordinates.
+
+Computer-vision systems can detect court lines or manually identify court reference points. A geometric transformation such as a homography can then map positions from the camera image into a top-down court representation.
+
+Court mapping is useful for player movement analysis. Once player positions are represented in court coordinates, a system can calculate areas covered, movement distance, positioning patterns, and spatial dominance.
+
+Court analysis can also support visualization. A badminton video-analysis system may display player and shuttle trajectories on a top-down representation of the court.
+
+Accurate court calibration is important because camera perspective can distort distances in the original video. Court analysis therefore acts as a bridge between image-space detections and meaningful sports measurements.

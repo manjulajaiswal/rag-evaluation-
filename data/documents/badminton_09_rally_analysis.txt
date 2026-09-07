@@ -1,0 +1,11 @@
+Badminton Rally Analysis
+
+A rally is a continuous sequence of play between the start of a point and the point-ending event. Automatic rally analysis attempts to identify rally boundaries and analyze what happens within each rally.
+
+Video-based rally analysis can use player movement, shuttlecock tracking, hit events, and temporal information. A system may first identify when a rally starts and ends and then analyze the individual events occurring inside it.
+
+Rally detection can be implemented using frame-level classifiers or temporal models. Some badminton computer-vision systems use pose and shuttle features together with sequence models to determine whether frames belong to active play.
+
+Once rallies are identified, additional statistics can be calculated. These can include rally duration, number of shots, player movement, shuttle trajectory, and court positioning.
+
+Rally analysis connects lower-level computer-vision tasks with higher-level sports analytics. Shuttle detection and player tracking provide visual information, while rally segmentation organizes that information into meaningful units of gameplay.

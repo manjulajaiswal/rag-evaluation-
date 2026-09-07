@@ -1,48 +1,39 @@
 import json
+import os
+
+
+RESULT_FILES = [
+    "results/chunk_small_results.json",
+    "results/chunk_large_results.json",
+    "results/topk_2_results.json",
+    "results/topk_5_results.json",
+    "results/embed_minilm_results.json",
+    "results/embed_mpnet_results.json",
+    "results/final_combined_results.json"
+]
 
 
 def load_results(path):
-    with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
+    with open(path, "r", encoding="utf-8") as file:
+        return json.load(file)
 
 
-def calculate_aggregate(results):
-    total = len(results)
+def print_experiment(title, results_a, results_b):
+    scores_a = results_a["aggregate_scores"]
+    scores_b = results_b["aggregate_scores"]
 
-    return {
-        "retrieval_precision": sum(
-            r["retrieval_precision"] for r in results
-        ) / total,
+    config_a = results_a["configuration"]["config_name"]
+    config_b = results_b["configuration"]["config_name"]
 
-        "retrieval_recall": sum(
-            r["retrieval_recall"] for r in results
-        ) / total,
-
-        "faithfulness": sum(
-            r["faithfulness"] for r in results
-        ) / total,
-
-        "correctness": sum(
-            r["correctness"] for r in results
-        ) / total
-    }
-
-
-def main():
-    config_a = load_results("results/config_a_results.json")
-    config_b = load_results("results/config_b_results.json")
-
-    aggregate_a = calculate_aggregate(config_a)
-    aggregate_b = calculate_aggregate(config_b)
-
-    print("\nCONFIGURATION COMPARISON")
+    print("\n" + "=" * 70)
+    print(title)
     print("=" * 70)
 
     print(
         f"{'Metric':<25}"
-        f"{'Config A':>15}"
-        f"{'Config B':>15}"
-        f"{'Winner':>15}"
+        f"{config_a:<15}"
+        f"{config_b:<15}"
+        f"{'Winner':<15}"
     )
 
     print("-" * 70)
@@ -55,45 +46,121 @@ def main():
     ]
 
     for metric in metrics:
-        a = aggregate_a[metric]
-        b = aggregate_b[metric]
+        score_a = scores_a[metric]
+        score_b = scores_b[metric]
 
-        if a > b:
-            winner = "Config A"
-        elif b > a:
-            winner = "Config B"
+        if score_a > score_b:
+            winner = config_a
+        elif score_b > score_a:
+            winner = config_b
         else:
             winner = "Tie"
 
         print(
             f"{metric:<25}"
-            f"{a:>14.2%}"
-            f"{b:>14.2%}"
-            f"{winner:>15}"
+            f"{score_a:<15.3f}"
+            f"{score_b:<15.3f}"
+            f"{winner:<15}"
         )
 
-    print("\nPER-QUESTION RETRIEVAL COMPARISON")
-    print("=" * 90)
 
-    print(
-        f"{'Question':<12}"
-        f"{'A Precision':>15}"
-        f"{'B Precision':>15}"
-        f"{'A Recall':>12}"
-        f"{'B Recall':>12}"
-    )
+def create_summary(results):
+    summary = []
 
-    print("-" * 90)
+    for result in results:
+        config = result["configuration"]
 
-    for a, b in zip(config_a, config_b):
-        print(
-            f"{a['id']:<12}"
-            f"{a['retrieval_precision']:>14.2%}"
-            f"{b['retrieval_precision']:>14.2%}"
-            f"{a['retrieval_recall']:>11.2%}"
-            f"{b['retrieval_recall']:>11.2%}"
-        )
+        summary.append({
+            "experiment": config["experiment"],
+            "configuration": config["config_name"],
+            "chunk_size": config["chunk_size"],
+            "overlap": config["overlap"],
+            "top_k": config["top_k"],
+            "embedding_model": config["embedding_model"],
+            **result["aggregate_scores"]
+        })
+
+    return summary
 
 
 if __name__ == "__main__":
-    main()
+    loaded_results = {}
+
+    for path in RESULT_FILES:
+        if not os.path.exists(path):
+            print(f"Missing result file: {path}")
+            continue
+
+        result = load_results(path)
+
+        config_name = result["configuration"]["config_name"]
+
+        loaded_results[config_name] = result
+
+    print("\nRAG EVALUATION COMPARISON")
+
+    if "chunk_small" in loaded_results and "chunk_large" in loaded_results:
+        print_experiment(
+            "Experiment 1: Chunk Size",
+            loaded_results["chunk_small"],
+            loaded_results["chunk_large"]
+        )
+
+    if "topk_2" in loaded_results and "topk_5" in loaded_results:
+        print_experiment(
+            "Experiment 2: Top-k",
+            loaded_results["topk_2"],
+            loaded_results["topk_5"]
+        )
+
+    if "embed_minilm" in loaded_results and "embed_mpnet" in loaded_results:
+        print_experiment(
+            "Experiment 3: Embedding Model",
+            loaded_results["embed_minilm"],
+            loaded_results["embed_mpnet"]
+        )
+    if "final_combined" in loaded_results:
+        final_scores = loaded_results["final_combined"]["aggregate_scores"]
+
+        print("\n" + "=" * 70)
+        print("Final Combined Configuration")
+        print("=" * 70)
+
+        print("Configuration: final_combined")
+        print(
+            f"Chunk size: {loaded_results['final_combined']['configuration']['chunk_size']}"
+        )
+        print(
+            f"Overlap: {loaded_results['final_combined']['configuration']['overlap']}"
+        )
+        print(
+            f"Top-k: {loaded_results['final_combined']['configuration']['top_k']}"
+        )
+        print(
+            f"Embedding: {loaded_results['final_combined']['configuration']['embedding_model']}"
+        )
+
+        print("\nAggregate scores:")
+
+        for metric, score in final_scores.items():
+            print(f"{metric}: {score:.3f}")
+
+    summary = create_summary(
+        list(loaded_results.values())
+    )
+
+    with open(
+        "results/comparison_summary.json",
+        "w",
+        encoding="utf-8"
+    ) as file:
+        json.dump(
+            summary,
+            file,
+            indent=2,
+            ensure_ascii=False
+        )
+
+    print("\n" + "=" * 70)
+    print("Saved: results/comparison_summary.json")
+    print("=" * 70)

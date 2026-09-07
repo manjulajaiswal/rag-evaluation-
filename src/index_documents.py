@@ -1,25 +1,36 @@
+import json
+
 from .document_loader import load_documents
 from .chunker import chunk_documents
 from .embeddings import Embedder
 from .vector_store import VectorStore
 
 
-def index_documents(
-    chunk_size=80,
-    overlap=20,
-    collection_name="rag_documents"
-):
+def load_config(config_path):
+    with open(config_path, "r", encoding="utf-8") as file:
+        return json.load(file)
+
+
+def index_documents(config_path, collection_name):
+    config = load_config(config_path)
+
     documents = load_documents()
 
     chunks = chunk_documents(
         documents,
-        chunk_size=chunk_size,
-        overlap=overlap
+        chunk_size=config["chunk_size"],
+        overlap=config["overlap"]
     )
 
-    embedder = Embedder()
+    embedder = Embedder(
+        model_name=config["embedding_model"]
+    )
 
-    texts = [chunk["text"] for chunk in chunks]
+    texts = [
+        chunk["text"]
+        for chunk in chunks
+    ]
+
     embeddings = embedder.embed_documents(texts)
 
     vector_store = VectorStore(
@@ -31,6 +42,22 @@ def index_documents(
         embeddings
     )
 
+    print(f"Configuration: {config['config_name']}")
     print(f"Documents indexed: {len(documents)}")
     print(f"Chunks indexed: {len(chunks)}")
-    print(f"Embeddings created: {len(embeddings)}")
+    print(f"Embedding model: {config['embedding_model']}")
+    print(f"Embedding dimension: {embeddings.shape[1]}")
+
+if __name__ == "__main__":
+    import sys
+
+    config_path = sys.argv[1]
+
+    config = load_config(config_path)
+
+    collection_name = f"rag_{config['config_name']}"
+
+    index_documents(
+        config_path,
+        collection_name
+    )

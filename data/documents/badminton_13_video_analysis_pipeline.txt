@@ -1,0 +1,15 @@
+Badminton Video Analysis Pipeline
+
+A badminton video-analysis pipeline combines several computer-vision stages to convert raw match footage into useful sports information.
+
+A typical pipeline begins with video input and may first detect the badminton court and players. Player detection can then be combined with a tracking algorithm to maintain player identities across frames.
+
+In parallel, a shuttlecock detector or TrackNet-based model can identify and track the shuttlecock. Pose estimation can provide body keypoints for the players.
+
+The extracted information can then be transformed into court coordinates using court calibration or homography. Temporal processing can identify hits, rallies, or other events.
+
+The final stage can generate statistics and visualizations. Examples include player movement, shuttle trajectories, rally duration, shot information, and court coverage.
+
+The pipeline is modular because each stage solves a different problem. A failure in shuttle tracking does not necessarily mean that player detection has failed. Similarly, accurate player tracking does not guarantee accurate hit detection.
+
+Separating these stages makes the system easier to evaluate and improve.

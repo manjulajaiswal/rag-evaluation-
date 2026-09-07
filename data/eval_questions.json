@@ -1,62 +1,152 @@
 [
   {
     "id": "q01",
-    "question": "When was NovaTech founded and who founded it?",
-    "expected_answer": "NovaTech was founded in 2018 by Maya Chen and Daniel Brooks.",
-    "relevant_source": "company_01.txt"
+    "type": "single_hop",
+    "question": "What is the primary purpose of TrackNet-based approaches in badminton video analysis?",
+    "expected_answer": "TrackNet-based approaches are primarily used to detect and track the small, fast-moving shuttlecock across video frames.",
+    "relevant_sources": [
+      "badminton_04_tracknet.txt"
+    ]
   },
   {
     "id": "q02",
-    "question": "What is the primary purpose of Atlas at NovaTech?",
-    "expected_answer": "Atlas is a platform designed for distributed data processing.",
-    "relevant_source": "company_01.txt"
+    "type": "single_hop",
+    "question": "What role does YOLO play in a badminton computer-vision pipeline?",
+    "expected_answer": "YOLO can be used as an object detector to locate players and other objects of interest in individual video frames, typically producing bounding boxes and class information.",
+    "relevant_sources": [
+      "badminton_16_yolo.txt"
+    ]
   },
   {
     "id": "q03",
-    "question": "Which Vertex Labs product is designed for deploying machine learning models?",
-    "expected_answer": "VectorFlow is designed to help companies deploy predictive machine learning models into production environments.",
-    "relevant_source": "company_02.txt"
+    "type": "single_hop",
+    "question": "What information can pose estimation provide about a badminton player that a simple player bounding box cannot?",
+    "expected_answer": "Pose estimation can provide the positions of body joints such as the shoulders, elbows, wrists, hips, knees, and ankles, describing the player's body configuration and movement rather than only the player's bounding box.",
+    "relevant_sources": [
+      "badminton_07_pose_estimation.txt"
+    ]
   },
   {
     "id": "q04",
-    "question": "What does Nimbus help organizations manage?",
-    "expected_answer": "Nimbus helps organizations monitor and control infrastructure deployed across different cloud environments, including computing resources and cloud costs.",
-    "relevant_source": "company_03.txt"
+    "type": "paraphrasing",
+    "question": "How can a computer-vision system follow the flight path of the shuttlecock rather than merely locating it in individual images?",
+    "expected_answer": "The system can use shuttlecock tracking to connect detected shuttlecock positions across consecutive video frames and reconstruct its movement as a continuous trajectory.",
+    "relevant_sources": [
+      "badminton_03_shuttle_tracking.txt"
+    ]
   },
   {
     "id": "q05",
-    "question": "Which DataSphere product is used to evaluate machine learning model performance?",
-    "expected_answer": "Insight is used to evaluate predictive models and identify changes in model performance over time.",
-    "relevant_source": "company_04.txt"
+    "type": "paraphrasing",
+    "question": "How can a badminton system identify where a player is in each video frame before analyzing the player's movement over time?",
+    "expected_answer": "An object detector such as YOLO can identify the player in individual frames and represent the player's location using a bounding box.",
+    "relevant_sources": [
+      "badminton_05_player_detection.txt",
+      "badminton_16_yolo.txt"
+    ]
   },
   {
     "id": "q06",
-    "question": "When did QuantumWorks launch Flux and what is it designed to do?",
-    "expected_answer": "QuantumWorks launched Flux in 2023. It is a high-performance computing platform designed to accelerate machine learning and scientific workloads.",
-    "relevant_source": "company_05.txt"
+    "type": "comparative",
+    "question": "How does YOLO differ from TrackNetV3 in a badminton video-analysis pipeline?",
+    "expected_answer": "YOLO is a general object-detection approach that can detect players and other objects in individual frames, whereas TrackNetV3 is specialized for detecting and tracking the small, fast-moving badminton shuttlecock across video frames.",
+    "relevant_sources": [
+      "badminton_16_yolo.txt",
+      "badminton_17_tracknetv3.txt"
+    ]
   },
   {
     "id": "q07",
-    "question": "What problem does BrightAI's VisionPro solve?",
-    "expected_answer": "VisionPro helps manufacturers detect defects in products using automated image analysis.",
-    "relevant_source": "company_06.txt"
+    "type": "multi_hop",
+    "question": "How can shuttlecock tracking information contribute to identifying the moment when a player strikes the shuttlecock?",
+    "expected_answer": "Shuttlecock tracking provides the shuttle's movement and position across frames, which can be combined with player position, pose, and changes in shuttle movement to help identify the moment of a hit.",
+    "relevant_sources": [
+      "badminton_03_shuttle_tracking.txt",
+      "badminton_08_hit_detection.txt"
+    ]
   },
   {
     "id": "q08",
-    "question": "What is the difference between PipelineX and ModelWatch at Synapse Systems?",
-    "expected_answer": "PipelineX focuses on moving and transforming data, while ModelWatch focuses on monitoring deployed machine learning models.",
-    "relevant_source": "company_07.txt"
+    "type": "multi_hop",
+    "question": "Why would a badminton system use an object detector together with court calibration when measuring player movement across the playing area?",
+    "expected_answer": "An object detector such as YOLO can locate the player, while court calibration or homography converts image-space positions into meaningful court coordinates that can be used to measure movement and court coverage.",
+    "relevant_sources": [
+      "badminton_16_yolo.txt",
+      "badminton_10_court_analysis.txt"
+    ]
   },
   {
     "id": "q09",
-    "question": "Which TerraCompute product is designed to reduce latency by placing computation closer to users and devices?",
-    "expected_answer": "EdgeRun is designed to reduce latency by placing computation closer to users and connected devices.",
-    "relevant_source": "company_08.txt"
+    "type": "multi_hop",
+    "question": "How can information about a player's body posture be combined with shuttlecock information to determine what type of badminton shot was played?",
+    "expected_answer": "Pose estimation provides information about the player's body configuration, while shuttlecock features describe its position and movement; these features can be combined as inputs for shot classification.",
+    "relevant_sources": [
+      "badminton_07_pose_estimation.txt",
+      "badminton_14_shot_classification.txt"
+    ]
   },
   {
     "id": "q10",
-    "question": "What does NeuralEdge's InferNet platform do?",
-    "expected_answer": "InferNet is a machine learning inference platform designed to serve predictive models at high throughput.",
-    "relevant_source": "company_09.txt"
+    "type": "multi_hop",
+    "question": "How can detecting individual hit events help a system move from low-level video analysis to higher-level rally and performance analysis?",
+    "expected_answer": "Hit detection identifies important events within a video, which helps organize gameplay into rallies and provides event information that can be combined with player movement and other measurements for higher-level performance analytics.",
+    "relevant_sources": [
+      "badminton_08_hit_detection.txt",
+      "badminton_09_rally_analysis.txt",
+      "badminton_15_performance_analytics.txt"
+    ]
+  },
+  {
+    "id": "q11",
+    "type": "conditional",
+    "question": "If a system can detect players accurately in individual frames but cannot maintain consistent player identities as they move, what capability is missing?",
+    "expected_answer": "Player tracking is missing. Detection identifies players in individual frames, while tracking associates detections across frames and maintains a consistent identity over time.",
+    "relevant_sources": [
+      "badminton_05_player_detection.txt",
+      "badminton_06_player_tracking.txt"
+    ]
+  },
+  {
+    "id": "q12",
+    "type": "conditional",
+    "question": "If a badminton system can locate the shuttlecock in individual frames but cannot reconstruct its movement across time, which capability is missing and what downstream analysis would be affected?",
+    "expected_answer": "Shuttlecock tracking is missing. Without reliable tracking, continuous shuttle trajectories become difficult to reconstruct, which can affect trajectory analysis and event detection such as identifying hits.",
+    "relevant_sources": [
+      "badminton_02_shuttle_detection.txt",
+      "badminton_03_shuttle_tracking.txt",
+      "badminton_11_trajectory_analysis.txt"
+    ]
+  },
+  {
+    "id": "q13",
+    "type": "comparative",
+    "question": "What is the difference between hit detection and shot classification, and why would a badminton analysis system typically need both?",
+    "expected_answer": "Hit detection identifies when a player strikes the shuttlecock, while shot classification determines what type of shot was performed. Both are useful because identifying the event provides the relevant moment for classifying the resulting shot.",
+    "relevant_sources": [
+      "badminton_08_hit_detection.txt",
+      "badminton_14_shot_classification.txt"
+    ]
+  },
+  {
+    "id": "q14",
+    "type": "abstract",
+    "question": "Why is badminton video analysis better understood as a pipeline of specialized computer-vision components rather than a single prediction task?",
+    "expected_answer": "Different stages solve different problems, including shuttle detection and tracking, player detection and tracking, pose estimation, court analysis, event detection, and higher-level performance analysis. Separating these stages makes the system modular and easier to evaluate and improve.",
+    "relevant_sources": [
+      "badminton_01_overview.txt",
+      "badminton_13_video_analysis_pipeline.txt"
+    ]
+  },
+  {
+    "id": "q15",
+    "type": "counterfactual",
+    "question": "Suppose a badminton analysis system uses YOLO to detect players and TrackNetV3 to track the shuttlecock, but the TrackNetV3 component becomes unreliable. Which types of analysis would be most affected and why?",
+    "expected_answer": "Shuttle trajectory analysis would become unreliable because the shuttle's movement cannot be reconstructed accurately. Hit detection and shot classification could also be affected because they can use shuttlecock position and movement as information.",
+    "relevant_sources": [
+      "badminton_17_tracknetv3.txt",
+      "badminton_08_hit_detection.txt",
+      "badminton_11_trajectory_analysis.txt",
+      "badminton_14_shot_classification.txt"
+    ]
   }
 ]

@@ -1,0 +1,8 @@
+{
+  "experiment": "final_combined",
+  "config_name": "final_combined",
+  "chunk_size": 160,
+  "overlap": 20,
+  "top_k": 5,
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2"
+}

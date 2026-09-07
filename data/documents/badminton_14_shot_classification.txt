@@ -1,0 +1,13 @@
+Badminton Shot Classification
+
+Shot classification attempts to identify the type of badminton shot performed during a hit. Examples of badminton shot categories can include different attacking, defensive, and placement-oriented strokes.
+
+Computer-vision systems can use information about player pose and shuttlecock movement as features for shot classification. A pose representation describes how the player's body is positioned, while shuttle features provide information about the shuttle's location and movement.
+
+Shot classification is generally performed after or alongside hit detection because the system first needs to identify the relevant moment in the video. A sequence of frames around the hit can then be analyzed to determine the shot type.
+
+Machine-learning models can be trained using annotated badminton clips where each hit has an associated shot label.
+
+Shot classification differs from hit detection. Hit detection answers the question of when a player hits the shuttlecock, while shot classification attempts to determine what type of shot was performed.
+
+Accurate shot classification can support player statistics, rally analysis, coaching applications, and tactical analysis.

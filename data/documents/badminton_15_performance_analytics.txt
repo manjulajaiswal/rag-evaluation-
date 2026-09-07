@@ -1,0 +1,13 @@
+Badminton Performance Analytics
+
+Performance analytics uses information extracted from badminton videos to produce measurements about player movement and gameplay.
+
+Player trajectories can be used to calculate movement distance, speed, court coverage, and positioning patterns. Court coordinates make these measurements more meaningful because movement can be represented relative to the actual playing area.
+
+Shuttlecock trajectories and hit events provide additional information about gameplay. Combining player movement with shuttle events can help identify attacking and defensive patterns or describe how a rally develops.
+
+Performance analytics can also compare players. For example, a system may measure how much court area each player covers or how frequently a player moves between different court regions.
+
+These measurements can support coaches, players, scouts, and sports analysts. They can also be visualized using court heatmaps, trajectory overlays, and statistical dashboards.
+
+Performance analytics is a higher-level application built on lower-level computer-vision components such as player detection, tracking, pose estimation, shuttle tracking, and event detection.

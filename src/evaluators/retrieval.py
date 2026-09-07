@@ -1,4 +1,4 @@
-def evaluate_retrieval(retrieved_chunks, relevant_source):
+def evaluate_retrieval(retrieved_chunks, relevant_sources):
     retrieved_documents = [
         chunk["document_id"]
         for chunk in retrieved_chunks
@@ -7,10 +7,11 @@ def evaluate_retrieval(retrieved_chunks, relevant_source):
     relevant_retrieved = sum(
         1
         for document_id in retrieved_documents
-        if document_id == relevant_source
+        if document_id in relevant_sources
     )
 
     total_retrieved = len(retrieved_documents)
+    total_relevant = len(relevant_sources)
 
     precision = (
         relevant_retrieved / total_retrieved
@@ -18,7 +19,17 @@ def evaluate_retrieval(retrieved_chunks, relevant_source):
         else 0
     )
 
-    recall = 1 if relevant_source in retrieved_documents else 0
+    retrieved_relevant_sources = set(
+        document_id
+        for document_id in retrieved_documents
+        if document_id in relevant_sources
+    )
+
+    recall = (
+        len(retrieved_relevant_sources) / total_relevant
+        if total_relevant > 0
+        else 0
+    )
 
     return {
         "precision": precision,

@@ -1,0 +1,13 @@
+Badminton Computer Vision Datasets
+
+Badminton computer-vision datasets provide video frames and annotations needed to train and evaluate models for sports analysis.
+
+Different datasets focus on different tasks. Some provide shuttlecock positions for tracking, while others include player bounding boxes, pose keypoints, hit events, shot types, rally boundaries, or shuttle trajectories.
+
+Recent full-match datasets have expanded the available annotations beyond short video clips. For example, the BFMD dataset contains full badminton matches with annotations covering match segments, rallies, hit events, shot types, shuttle trajectories, player pose keypoints, and shot captions.
+
+Other benchmarks focus on specific computer-vision problems. RacketVision, for example, covers badminton together with other racket sports and provides annotations for ball tracking, racket pose estimation, and future ball trajectory prediction.
+
+The type of annotation determines what a dataset can be used for. A dataset containing shuttle coordinates is useful for tracking, while a dataset containing hit-frame annotations can support hit detection.
+
+Dataset selection should therefore be based on the target computer-vision task and the type of labels available.

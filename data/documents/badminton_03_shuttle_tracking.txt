@@ -1,0 +1,11 @@
+Badminton Shuttlecock Tracking
+
+Shuttlecock tracking is the process of following the shuttlecock across consecutive video frames after detecting its position. The objective is to produce a continuous trajectory that represents how the shuttlecock moves during a rally.
+
+Tracking is difficult because the shuttlecock is very small, moves rapidly, and can become blurred or temporarily invisible. A tracking system therefore needs to handle missing detections and noisy predictions instead of assuming that the shuttlecock will be visible in every frame.
+
+TrackNet-based approaches are commonly used for badminton shuttlecock tracking. These methods use information from multiple consecutive frames to estimate the shuttlecock location. TrackNetV3 extends this type of approach with trajectory-related processing and can be used for shuttle trajectory detection and analysis.
+
+The output of tracking can include the shuttlecock coordinates for each frame, confidence information, and reconstructed track segments. A continuous trajectory can then be used by downstream systems for event detection, landing-point estimation, and tactical analysis.
+
+Shuttlecock tracking is different from shuttlecock detection. Detection identifies the shuttlecock in an individual frame, while tracking connects detections across time to reconstruct its movement.

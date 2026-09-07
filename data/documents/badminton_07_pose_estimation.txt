@@ -1,0 +1,11 @@
+Badminton Pose Estimation
+
+Pose estimation identifies key body joints of a player from video frames. A pose model can estimate points such as the shoulders, elbows, wrists, hips, knees, and ankles and connect them into a human skeleton.
+
+Pose information provides more detail than a simple player bounding box. Instead of knowing only where the player is located, a badminton analysis system can estimate the player's body configuration and movement.
+
+Pose estimation can be used to study footwork, body position, racket-related movements, and player actions. It can also provide features for shot classification and performance analysis.
+
+Modern badminton computer-vision projects commonly combine player detection with pose estimation. YOLO-based pose models or other pose-estimation frameworks can generate keypoints for players detected in match footage.
+
+Pose estimation is different from player tracking. Tracking identifies the same player across time, while pose estimation describes the player's body configuration within an individual frame. The two techniques can be combined to analyze how a player's movement and posture change throughout a rally.
