@@ -8,8 +8,8 @@
     "embedding_model": "sentence-transformers/all-MiniLM-L6-v2"
   },
   "aggregate_scores": {
-    "document_precision": 0.5833333333333334,
-    "document_recall": 0.5989583333333334,
+    "document_precision": 0.6041666666666666,
+    "document_recall": 0.6614583333333334,
     "context_precision": 0.7447916666666666,
     "context_recall": 0.8125,
     "faithfulness": 1.0,
@@ -19,8 +19,8 @@
   "scores_by_type": {
     "single_hop": {
       "count": 4,
-      "document_precision": 0.5833333333333333,
-      "document_recall": 0.75,
+      "document_precision": 0.6666666666666666,
+      "document_recall": 1.0,
       "context_precision": 0.9583333333333333,
       "context_recall": 0.9166666666666666,
       "faithfulness": 1.0,
@@ -1256,7 +1256,7 @@
       "expected_answer": "Arvind KG, who worked on TrackNet, noted that TrackNet can struggle with occlusions and very small or blurred objects because earlier versions rely heavily on visual cues. It can also face challenges with complex motion and varying lighting or background conditions.",
       "generated_answer": "Based on the provided context:\n\n* **Who worked on TrackNet:** Arvind KG worked on TrackNet.\n* **Limitations faced:** TrackNet can struggle with occlusions, very small or blurred objects (since earlier versions rely heavily on visual cues), and can also face challenges with positions and analyzing shuttle movement. *(Note: The sentence regarding challenges with positions is cut off in the context).*",
       "relevant_sources": [
-        "badminton_04_tracknet"
+        "badminton_04_tracknet.txt"
       ],
       "retrieved_documents": [
         "badminton_04_tracknet.txt",
@@ -1283,8 +1283,8 @@
           "text": "to handle missing detections and noisy predictions instead of assuming that the shuttlecock will be visible in every frame. TrackNet-based approaches are commonly used for badminton shuttlecock tracking. These methods use information from multiple consecutive frames to estimate the shuttlecock location. TrackNetV3 extends this type of approach with trajectory-related processing and can be used for shuttle trajectory detection and analysis. The output of tracking can include the shuttlecock coordinates for each frame, confidence information, and reconstructed track segments. A continuous"
         }
       ],
-      "document_precision": 0.0,
-      "document_recall": 0.0,
+      "document_precision": 0.3333333333333333,
+      "document_recall": 1.0,
       "context_precision": 1.0,
       "context_recall": 0.6666666666666666,
       "context_chunk_judgments": [

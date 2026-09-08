@@ -8,8 +8,8 @@
     "embedding_model": "sentence-transformers/all-MiniLM-L6-v2"
   },
   "aggregate_scores": {
-    "document_precision": 0.525,
-    "document_recall": 0.8072916666666666,
+    "document_precision": 0.5625,
+    "document_recall": 0.8697916666666666,
     "context_precision": 0.73046875,
     "context_recall": 0.8802083333333334,
     "faithfulness": 1.0,
@@ -19,8 +19,8 @@
   "scores_by_type": {
     "single_hop": {
       "count": 4,
-      "document_precision": 0.35,
-      "document_recall": 0.75,
+      "document_precision": 0.5,
+      "document_recall": 1.0,
       "context_precision": 0.9388888888888889,
       "context_recall": 0.9375,
       "faithfulness": 1.0,
@@ -1711,7 +1711,7 @@
       "expected_answer": "Arvind KG, who worked on TrackNet, noted that TrackNet can struggle with occlusions and very small or blurred objects because earlier versions rely heavily on visual cues. It can also face challenges with complex motion and varying lighting or background conditions.",
       "generated_answer": "Based on the provided context:\n\n* **Who worked on TrackNet:** Arvind KG worked on TrackNet.\n* **Limitations faced:** TrackNet can struggle with occlusions, very small or blurred objects (since earlier versions rely heavily on visual cues), and can also face challenges with positions and analyzing shuttle movement.",
       "relevant_sources": [
-        "badminton_04_tracknet"
+        "badminton_04_tracknet.txt"
       ],
       "retrieved_documents": [
         "badminton_04_tracknet.txt",
@@ -1752,8 +1752,8 @@
           "text": "location of the shuttlecock. The prediction can be represented as a heatmap showing where the shuttlecock is likely to be located. TrackNet-based systems can therefore provide shuttlecock coordinates for badminton videos. These coordinates can be connected across frames to produce a trajectory. Later versions such as TrackNetV3 provide additional functionality for badminton shuttlecock tracking and trajectory processing. Open-source implementations of TrackNetV3 are used in badminton analysis pipelines for shuttle detection and tracking. TrackNet is primarily concerned with the shuttlecock rather"
         }
       ],
-      "document_precision": 0.0,
-      "document_recall": 0.0,
+      "document_precision": 0.6,
+      "document_recall": 1.0,
       "context_precision": 1.0,
       "context_recall": 0.75,
       "context_chunk_judgments": [

@@ -8,8 +8,8 @@
     "embedding_model": "sentence-transformers/all-MiniLM-L6-v2"
   },
   "aggregate_scores": {
-    "document_precision": 0.65625,
-    "document_recall": 0.5989583333333334,
+    "document_precision": 0.6875,
+    "document_recall": 0.6614583333333334,
     "context_precision": 0.78125,
     "context_recall": 0.7552083333333334,
     "faithfulness": 1.0,
@@ -19,8 +19,8 @@
   "scores_by_type": {
     "single_hop": {
       "count": 4,
-      "document_precision": 0.5,
-      "document_recall": 0.75,
+      "document_precision": 0.625,
+      "document_recall": 1.0,
       "context_precision": 1.0,
       "context_recall": 0.9375,
       "faithfulness": 1.0,
@@ -1071,7 +1071,7 @@
       "expected_answer": "Arvind KG, who worked on TrackNet, noted that TrackNet can struggle with occlusions and very small or blurred objects because earlier versions rely heavily on visual cues. It can also face challenges with complex motion and varying lighting or background conditions.",
       "generated_answer": "Arvind KG worked on TrackNet. \n\nRegarding limitations, TrackNet can struggle with occlusions and very small or blurred objects because earlier versions rely heavily on visual cues, and it can also face challenges with positions and analyzing shuttle movement.",
       "relevant_sources": [
-        "badminton_04_tracknet"
+        "badminton_04_tracknet.txt"
       ],
       "retrieved_documents": [
         "badminton_04_tracknet.txt",
@@ -1091,8 +1091,8 @@
           "text": "positions, and analyzing shuttle movement. TrackNetV3 is specialized for the shuttlecock and should not be confused with a general player detector such as YOLO. In a complete badminton analysis pipeline, TrackNetV3 and YOLO can therefore perform complementary roles. Reported results on the Shuttlecock Trajectory Dataset show substantially higher tracking performance for TrackNetV3 than earlier TrackNet versions and the YOLOv7 baseline."
         }
       ],
-      "document_precision": 0.0,
-      "document_recall": 0.0,
+      "document_precision": 0.5,
+      "document_recall": 1.0,
       "context_precision": 1.0,
       "context_recall": 0.75,
       "context_chunk_judgments": [
