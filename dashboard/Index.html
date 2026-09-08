@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.6/dist/chart.umd.min.js"></script>
+    <?!= include('Styles'); ?>
+  </head>
+  <body>
+    <div id="loading" class="loading-screen">
+      <div class="loader"></div>
+      <div>Loading evaluation dashboard…</div>
+    </div>
+
+    <main id="app" class="app hidden">
+      <header class="hero container">
+        <div>
+          <div class="eyebrow">RAG EVALUATION HARNESS</div>
+          <h1 id="project-title">RAG Evaluation Lab</h1>
+          <p id="project-subtitle" class="subtitle"></p>
+          <div id="dataset-pills" class="pill-row"></div>
+        </div>
+        <div class="hero-badge">
+          <span class="status-dot"></span>
+          <span>Evaluation complete</span>
+        </div>
+      </header>
+
+      <nav class="container dashboard-tabs" aria-label="Dashboard sections">
+        <button class="dashboard-tab active" type="button" data-tab="overview">
+          <span class="tab-icon">◫</span>
+          <span>
+            <strong>Overview</strong>
+            <small>Results & experiments</small>
+          </span>
+        </button>
+        <button class="dashboard-tab" type="button" data-tab="diagnostics">
+          <span class="tab-icon">⌁</span>
+          <span>
+            <strong>Diagnostics</strong>
+            <small>Query types & failures</small>
+          </span>
+        </button>
+      </nav>
+
+      <div id="tab-overview" class="tab-panel active">
+        <section class="container kpi-grid" id="kpi-grid"></section>
+
+        <section class="container section-grid section-grid-2">
+          <article class="panel span-7">
+            <div class="panel-header">
+              <div>
+                <div class="section-kicker">Configuration leaderboard</div>
+                <h2>Overall composite score</h2>
+              </div>
+              <div class="legend-note">0–100%</div>
+            </div>
+            <div class="chart-wrap leaderboard-wrap">
+              <canvas id="leaderboardChart"></canvas>
+            </div>
+          </article>
+
+          <article class="panel span-5 winner-panel" id="winner-panel"></article>
+        </section>
+
+        <section class="container section-grid intelligence-section">
+          <article class="panel span-7 intelligence-panel">
+            <div class="panel-header intelligence-header">
+              <div>
+                <div class="section-kicker">Evaluation intelligence</div>
+                <h2>What the benchmark is telling us</h2>
+              </div>
+              <div class="ai-badge">
+                <span class="sparkle">✦</span>
+                Metric-grounded insights
+              </div>
+            </div>
+            <div id="insight-list" class="insight-list"></div>
+            <div id="correlation-note" class="correlation-note"></div>
+          </article>
+
+          <article class="panel span-5 impact-panel">
+            <div class="panel-header">
+              <div>
+                <div class="section-kicker">Experiment impact</div>
+                <h2>Controlled-change deltas</h2>
+              </div>
+              <div class="legend-note">percentage points</div>
+            </div>
+            <div class="chart-wrap impact-wrap">
+              <canvas id="impactChart"></canvas>
+            </div>
+            <div class="chart-caption">
+              Positive bars favor the second configuration in each controlled experiment.
+            </div>
+          </article>
+        </section>
+
+        <section class="container">
+          <div class="section-heading">
+            <div>
+              <div class="section-kicker">Controlled experiments</div>
+              <h2>What changed — and what did it improve?</h2>
+            </div>
+            <p>Each card compares configurations that isolate a single pipeline variable.</p>
+          </div>
+          <div class="experiment-grid" id="experiment-grid"></div>
+        </section>
+
+        <section class="container panel compare-panel">
+          <div class="panel-header compare-header">
+            <div>
+              <div class="section-kicker">Interactive comparison</div>
+              <h2>Compare any two configurations</h2>
+            </div>
+            <div class="compare-controls">
+              <label>
+                <span>Configuration A</span>
+                <select id="config-a"></select>
+              </label>
+              <div class="versus">vs</div>
+              <label>
+                <span>Configuration B</span>
+                <select id="config-b"></select>
+              </label>
+            </div>
+          </div>
+
+          <div class="compare-layout">
+            <div class="comparison-left">
+              <div id="config-meta" class="config-meta-grid"></div>
+              <div id="delta-grid" class="delta-grid"></div>
+              <div id="comparison-insight" class="insight-box comparison-intelligence"></div>
+            </div>
+            <div class="chart-wrap radar-wrap">
+              <canvas id="radarChart"></canvas>
+            </div>
+          </div>
+        </section>
+
+        <section class="container panel matrix-panel">
+          <div class="panel-header">
+            <div>
+              <div class="section-kicker">Full evaluation matrix</div>
+              <h2>All configurations × all metrics</h2>
+            </div>
+            <label class="metric-filter">
+              <span>Sort by</span>
+              <select id="sort-metric"></select>
+            </label>
+          </div>
+          <div class="table-scroll">
+            <table>
+              <thead id="matrix-head"></thead>
+              <tbody id="matrix-body"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="container glossary">
+          <div class="section-kicker">Metric guide</div>
+          <div class="glossary-grid">
+            <div><strong>Document P/R</strong><span>How well retrieval finds the annotated relevant source documents.</span></div>
+            <div><strong>Context P/R</strong><span>How much retrieved chunk content is useful, and how much required answer evidence is covered.</span></div>
+            <div><strong>Faithfulness</strong><span>Whether the generated answer stays supported by retrieved context.</span></div>
+            <div><strong>Correctness</strong><span>Whether the generated answer matches the expected answer.</span></div>
+            <div><strong>Composite</strong><span>Mean of context precision, context recall, faithfulness, and correctness.</span></div>
+          </div>
+        </section>
+      </div>
+
+      <div id="tab-diagnostics" class="tab-panel">
+        <section class="container diagnostics-intro">
+          <div>
+            <div class="section-kicker">Diagnostic workspace</div>
+            <h2>Where does the RAG pipeline struggle?</h2>
+          </div>
+          <p>Slice performance by query structure, then inspect representative failures to separate retrieval problems from generation problems.</p>
+        </section>
+
+        <section class="container section-grid query-type-section">
+          <article class="panel span-8 query-type-panel">
+            <div class="panel-header query-type-header">
+              <div>
+                <div class="section-kicker">Query-type performance</div>
+                <h2>Which kinds of questions are hardest?</h2>
+              </div>
+              <label class="metric-filter query-config-filter">
+                <span>Configuration</span>
+                <select id="query-config"></select>
+              </label>
+            </div>
+            <div id="query-mix" class="query-mix"></div>
+            <div class="chart-wrap query-type-chart-wrap">
+              <canvas id="queryTypeChart"></canvas>
+            </div>
+            <div class="chart-caption">
+              Categories with only one question are directional case studies, not stable population estimates.
+            </div>
+          </article>
+
+          <article class="panel span-4 query-insights-panel">
+            <div class="section-kicker">Category intelligence</div>
+            <h2>Reading the query mix</h2>
+            <div id="query-type-insights" class="query-type-insights"></div>
+          </article>
+        </section>
+
+        <section class="container failure-section">
+          <div class="section-heading failure-heading">
+            <div>
+              <div class="section-kicker">Failure analysis</div>
+              <h2>What failed — and why?</h2>
+            </div>
+            <div class="failure-controls">
+              <label>
+                <span>Filter by query type</span>
+                <select id="failure-type-filter"></select>
+              </label>
+            </div>
+          </div>
+
+          <div class="failure-taxonomy">
+            <div><span>🔍</span><strong>Semantic miss</strong><small>Relevant concept expressed differently from corpus wording.</small></div>
+            <div><span>🧩</span><strong>Missing hop</strong><small>Only part of the evidence chain is retrieved.</small></div>
+            <div><span>🔗</span><strong>Dependency miss</strong><small>Downstream consequences require cross-document evidence.</small></div>
+            <div><span>✍️</span><strong>Generation miss</strong><small>Evidence is available, but the answer does not use it correctly.</small></div>
+          </div>
+
+          <div id="failure-grid" class="failure-grid"></div>
+        </section>
+      </div>
+
+      <footer class="container footer">
+        Built with Google Apps Script + Chart.js · RAG evaluation benchmark
+      </footer>
+    </main>
+
+    <?!= include('Scripts'); ?>
+  </body>
+</html>

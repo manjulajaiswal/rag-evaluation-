@@ -1,0 +1,900 @@
+<script>
+  const state = {
+    data: null,
+    leaderboardChart: null,
+    impactChart: null,
+    radarChart: null,
+    queryTypeChart: null,
+    compareA: null,
+    compareB: null
+  };
+
+  const EPS = 0.0005;
+  const fmtPct = value => `${(value * 100).toFixed(1)}%`;
+  const fmtDelta = value => `${value >= 0 ? '+' : ''}${(value * 100).toFixed(1)} pp`;
+  const byName = name => state.data.configs.find(c => c.name === name);
+  const metric = key => state.data.metrics.find(m => m.key === key);
+
+  function initDashboard(data) {
+    state.data = data;
+    hydrateHeader();
+
+    // Reveal the app before Chart.js measures canvases.
+    document.getElementById('app').classList.remove('hidden');
+    setupTabs();
+
+    renderKpis();
+    renderWinner();
+    renderLeaderboard();
+    renderGlobalInsights();
+    renderImpactChart();
+    renderExperiments();
+    setupQueryTypePerformance();
+    setupFailureAnalysis();
+    setupCompareSelectors();
+    setupMatrix();
+
+    document.getElementById('loading').classList.add('hidden');
+  }
+
+  function setupTabs() {
+    const buttons = [...document.querySelectorAll('.dashboard-tab')];
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => activateTab(button.dataset.tab));
+    });
+
+    activateTab('overview', false);
+  }
+
+  function activateTab(tabName, shouldScroll = true) {
+    document.querySelectorAll('.dashboard-tab').forEach(button => {
+      const active = button.dataset.tab === tabName;
+      button.classList.toggle('active', active);
+      button.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+
+    document.querySelectorAll('.tab-panel').forEach(panel => {
+      panel.classList.toggle('active', panel.id === `tab-${tabName}`);
+    });
+
+    // Charts created inside a hidden tab need a fresh size calculation.
+    requestAnimationFrame(() => {
+      if (tabName === 'diagnostics') {
+        if (document.getElementById('query-config').options.length) {
+          renderQueryTypePerformance();
+        }
+      } else {
+        state.leaderboardChart?.resize();
+        state.impactChart?.resize();
+        state.radarChart?.resize();
+      }
+    });
+
+    if (shouldScroll) {
+      document.querySelector('.dashboard-tabs').scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  }
+
+  function hydrateHeader() {
+    const p = state.data.project;
+    document.getElementById('project-title').textContent = p.title;
+    document.getElementById('project-subtitle').textContent = p.subtitle;
+    document.getElementById('dataset-pills').innerHTML = [
+      `${p.documents} documents`,
+      `${p.questions} eval questions`,
+      `${p.configurations} configurations`,
+      p.updatedLabel
+    ].map(x => `<span class="pill">${x}</span>`).join('');
+  }
+
+  function bestConfig() {
+    return [...state.data.configs]
+      .sort((a, b) => b.scores.ragas_style_composite - a.scores.ragas_style_composite)[0];
+  }
+
+  function renderKpis() {
+    const best = bestConfig();
+    const items = [
+      { label: 'Best configuration', value: best.name, sub: `${best.chunkSize} words · top-k ${best.topK}`, primary: true },
+      { label: 'Composite', value: fmtPct(best.scores.ragas_style_composite), sub: 'Best end-to-end score' },
+      { label: 'Context recall', value: fmtPct(best.scores.context_recall), sub: 'Required answer evidence covered' },
+      { label: 'Correctness', value: fmtPct(best.scores.correctness), sub: 'Expected-answer agreement' }
+    ];
+
+    document.getElementById('kpi-grid').innerHTML = items.map(x => `
+      <article class="kpi-card ${x.primary ? 'primary' : ''}">
+        <div class="kpi-label">${x.label}</div>
+        <div class="kpi-value">${x.value}</div>
+        <div class="kpi-sub">${x.sub}</div>
+      </article>
+    `).join('');
+  }
+
+  function renderWinner() {
+    const c = bestConfig();
+    document.getElementById('winner-panel').innerHTML = `
+      <div class="winner-tag">Best configuration</div>
+      <div class="winner-name">${c.name}</div>
+      <div class="winner-score">${fmtPct(c.scores.ragas_style_composite)}</div>
+      <div class="winner-caption">RAGAS-style composite</div>
+      <div class="config-specs">
+        <div class="spec"><span>Chunk size</span><strong>${c.chunkSize} words</strong></div>
+        <div class="spec"><span>Top-k</span><strong>${c.topK}</strong></div>
+        <div class="spec"><span>Overlap</span><strong>${c.overlap} words</strong></div>
+        <div class="spec"><span>Embedding</span><strong>${c.embedding}</strong></div>
+      </div>
+      <div class="insight-box winner-insight" style="margin-top:auto;">
+        <strong>Coverage wins here.</strong> The best run reaches 100% context recall and 100% correctness even though document precision falls to ${fmtPct(c.scores.document_precision)}. On this benchmark, retrieving enough supporting evidence matters more than keeping every retrieved source perfectly clean.
+      </div>
+    `;
+  }
+
+  function renderLeaderboard() {
+    const sorted = [...state.data.configs]
+      .sort((a, b) => b.scores.ragas_style_composite - a.scores.ragas_style_composite);
+    const ctx = document.getElementById('leaderboardChart');
+
+    if (state.leaderboardChart) state.leaderboardChart.destroy();
+
+    state.leaderboardChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: sorted.map(c => c.name),
+        datasets: [{
+          data: sorted.map(c => c.scores.ragas_style_composite * 100),
+          backgroundColor: sorted.map(c => c.name === bestConfig().name ? '#4f46e5' : '#c7d2fe'),
+          borderRadius: 8,
+          barThickness: 24
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { callbacks: { label: ctx => `${ctx.raw.toFixed(1)}% composite` } }
+        },
+        scales: {
+          x: {
+            min: 0,
+            max: 100,
+            grid: { color: '#eef1f5' },
+            ticks: { callback: v => `${v}%`, color: '#98a2b3', font: { size: 10 } }
+          },
+          y: {
+            grid: { display: false },
+            ticks: { color: '#344054', font: { size: 11, weight: '600' } }
+          }
+        }
+      }
+    });
+  }
+
+  function controlledExperiment(id) {
+    return state.data.experiments.find(exp => exp.id === id);
+  }
+
+  function experimentDelta(exp, key) {
+    const a = byName(exp.a);
+    const b = byName(exp.b);
+    return b.scores[key] - a.scores[key];
+  }
+
+  function renderGlobalInsights() {
+    const best = bestConfig();
+    const chunk = controlledExperiment('chunk');
+    const topk = controlledExperiment('topk');
+    const embedding = controlledExperiment('embedding');
+
+    const controlledCompositeDeltas = state.data.experiments.map(exp => ({
+      exp,
+      delta: experimentDelta(exp, 'ragas_style_composite')
+    }));
+    const strongestControlled = [...controlledCompositeDeltas]
+      .sort((a, b) => b.delta - a.delta)[0];
+
+    const faithfulnessValues = state.data.configs.map(c => c.scores.faithfulness);
+    const faithfulnessSaturated = faithfulnessValues.every(v => Math.abs(v - 1) < EPS);
+
+    const insights = [
+      {
+        tone: 'accent',
+        label: 'End-to-end winner',
+        title: 'Coverage beats retrieval purity',
+        body: `<strong>${best.name}</strong> has the highest composite (${fmtPct(best.scores.ragas_style_composite)}) with ${fmtPct(best.scores.context_recall)} context recall and ${fmtPct(best.scores.correctness)} correctness, despite only ${fmtPct(best.scores.document_precision)} document precision.`,
+        stat: fmtPct(best.scores.ragas_style_composite),
+        statLabel: 'composite'
+      },
+      {
+        tone: 'positive',
+        label: 'Strongest isolated lever',
+        title: 'Larger chunks helped most',
+        body: `The biggest controlled composite gain comes from <strong>${strongestControlled.exp.title.toLowerCase()}</strong>: ${fmtDelta(strongestControlled.delta)}. For 80 → 160 words, correctness rises ${fmtDelta(experimentDelta(chunk, 'correctness'))} and context recall rises ${fmtDelta(experimentDelta(chunk, 'context_recall'))}.`,
+        stat: fmtDelta(experimentDelta(chunk, 'correctness')),
+        statLabel: 'correctness'
+      },
+      {
+        tone: 'tradeoff',
+        label: 'Retrieval trade-off',
+        title: 'Higher top-k buys recall with noise',
+        body: `Moving k = 2 → 5 raises document recall ${fmtDelta(experimentDelta(topk, 'document_recall'))} and context recall ${fmtDelta(experimentDelta(topk, 'context_recall'))}, while document precision drops ${fmtDelta(experimentDelta(topk, 'document_precision'))}. The net composite still improves ${fmtDelta(experimentDelta(topk, 'ragas_style_composite'))}.`,
+        stat: fmtDelta(experimentDelta(topk, 'document_recall')),
+        statLabel: 'doc recall'
+      },
+      {
+        tone: 'neutral',
+        label: 'Model choice',
+        title: 'MPNet did not improve end-to-end quality',
+        body: `MPNet gains only ${fmtDelta(experimentDelta(embedding, 'document_recall'))} document recall, but context precision falls ${fmtDelta(experimentDelta(embedding, 'context_precision'))} and composite falls ${fmtDelta(experimentDelta(embedding, 'ragas_style_composite'))}. A larger embedding model is not automatically better for this corpus.`,
+        stat: fmtDelta(experimentDelta(embedding, 'ragas_style_composite')),
+        statLabel: 'composite'
+      }
+    ];
+
+    if (faithfulnessSaturated) {
+      insights.push({
+        tone: 'caution',
+        label: 'Metric limitation',
+        title: 'Faithfulness is saturated',
+        body: `Faithfulness is ${fmtPct(1)} for all ${state.data.configs.length} runs, so it does not distinguish configurations in this benchmark. That is consistent with the strict context-only generation prompt, but a larger test set or claim-level score would provide more sensitivity.`,
+        stat: '7 / 7',
+        statLabel: 'at 100%'
+      });
+    }
+
+    document.getElementById('insight-list').innerHTML = insights.map(item => `
+      <div class="ai-insight ${item.tone}">
+        <div class="insight-marker"></div>
+        <div class="insight-copy">
+          <div class="insight-label">${item.label}</div>
+          <div class="insight-title">${item.title}</div>
+          <div class="insight-body">${item.body}</div>
+        </div>
+        <div class="insight-stat">
+          <strong>${item.stat}</strong>
+          <span>${item.statLabel}</span>
+        </div>
+      </div>
+    `).join('');
+
+    const r = pearsonCorrelation(
+      state.data.configs.map(c => c.scores.context_recall),
+      state.data.configs.map(c => c.scores.correctness)
+    );
+
+    document.getElementById('correlation-note').innerHTML = `
+      <span class="correlation-icon">↗</span>
+      <div>
+        <strong>Exploratory signal:</strong> across these seven runs, Context Recall and Correctness move together strongly (<strong>r = ${r.toFixed(2)}</strong>). This is useful directional evidence, not a causal result, because the configurations are not seven independent controlled experiments.
+      </div>
+    `;
+  }
+
+  function pearsonCorrelation(xs, ys) {
+    if (!xs.length || xs.length !== ys.length) return 0;
+    const meanX = xs.reduce((a, b) => a + b, 0) / xs.length;
+    const meanY = ys.reduce((a, b) => a + b, 0) / ys.length;
+    let numerator = 0;
+    let denomX = 0;
+    let denomY = 0;
+
+    xs.forEach((x, i) => {
+      const dx = x - meanX;
+      const dy = ys[i] - meanY;
+      numerator += dx * dy;
+      denomX += dx * dx;
+      denomY += dy * dy;
+    });
+
+    const denominator = Math.sqrt(denomX * denomY);
+    return denominator ? numerator / denominator : 0;
+  }
+
+  function renderImpactChart() {
+    const experiments = state.data.experiments;
+    const ctx = document.getElementById('impactChart');
+
+    if (state.impactChart) state.impactChart.destroy();
+
+    const keys = ['context_recall', 'correctness', 'ragas_style_composite'];
+    const colors = ['#4f46e5', '#0f766e', '#c0841a'];
+
+    state.impactChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: experiments.map(exp => exp.title),
+        datasets: keys.map((key, i) => ({
+          label: metric(key).label,
+          data: experiments.map(exp => experimentDelta(exp, key) * 100),
+          backgroundColor: colors[i],
+          borderRadius: 6,
+          maxBarThickness: 28
+        }))
+      },
+      options: {
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              usePointStyle: true,
+              pointStyle: 'circle',
+              boxWidth: 8,
+              font: { size: 10 },
+              color: '#667085'
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: ctx => `${ctx.dataset.label}: ${ctx.raw >= 0 ? '+' : ''}${ctx.raw.toFixed(1)} pp`
+            }
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false },
+            ticks: { color: '#475467', font: { size: 10, weight: '600' } }
+          },
+          y: {
+            suggestedMin: -5,
+            suggestedMax: 20,
+            grid: { color: '#eef1f5' },
+            ticks: {
+              callback: value => `${value > 0 ? '+' : ''}${value} pp`,
+              color: '#98a2b3',
+              font: { size: 9 }
+            }
+          }
+        }
+      }
+    });
+  }
+
+  function renderExperiments() {
+    const grid = document.getElementById('experiment-grid');
+
+    grid.innerHTML = state.data.experiments.map(exp => {
+      const a = byName(exp.a);
+      const b = byName(exp.b);
+      const winner = b.scores.ragas_style_composite >= a.scores.ragas_style_composite ? b : a;
+
+      const metricRows = exp.highlights.map(key => {
+        const delta = b.scores[key] - a.scores[key];
+        const cls = delta > EPS ? 'up' : delta < -EPS ? 'down' : 'flat';
+        return `
+          <div class="experiment-metric">
+            <span class="label">${metric(key).label}</span>
+            <span class="delta ${cls}">${fmtDelta(delta)}</span>
+          </div>`;
+      }).join('');
+
+      return `
+        <article class="experiment-card" data-a="${exp.a}" data-b="${exp.b}">
+          <div class="experiment-top">
+            <div>
+              <div class="experiment-title">${exp.title}</div>
+              <div class="experiment-variable">${exp.variable}</div>
+            </div>
+            <div class="winner-chip">Winner: ${winner.name}</div>
+          </div>
+          <div class="experiment-metrics">${metricRows}</div>
+          <div class="experiment-footer">Click to load this controlled experiment into the comparator.</div>
+        </article>`;
+    }).join('');
+
+    grid.querySelectorAll('.experiment-card').forEach(card => {
+      card.addEventListener('click', () => {
+        document.getElementById('config-a').value = card.dataset.a;
+        document.getElementById('config-b').value = card.dataset.b;
+        updateComparison();
+        document.querySelector('.compare-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+  }
+
+  function queryTypeMeta(key) {
+    return state.data.queryTypes.find(item => item.key === key);
+  }
+
+  function setupQueryTypePerformance() {
+    const select = document.getElementById('query-config');
+    select.innerHTML = state.data.configs
+      .map(c => `<option value="${c.name}">${c.name}</option>`)
+      .join('');
+    select.value = 'final_combined';
+    select.addEventListener('change', renderQueryTypePerformance);
+    renderQueryTypePerformance();
+  }
+
+  function renderQueryTypePerformance() {
+    const configName = document.getElementById('query-config').value;
+    const scores = state.data.queryTypeScores[configName];
+    const queryTypes = state.data.queryTypes;
+
+    document.getElementById('query-mix').innerHTML = queryTypes.map(type => {
+      const item = scores[type.key];
+      return `
+        <span class="query-pill" title="${type.description}">
+          <strong>${type.label}</strong>
+          <em>${item.count} ${item.count === 1 ? 'question' : 'questions'}</em>
+        </span>`;
+    }).join('');
+
+    const ctx = document.getElementById('queryTypeChart');
+    if (state.queryTypeChart) state.queryTypeChart.destroy();
+
+    state.queryTypeChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: queryTypes.map(type => type.label),
+        datasets: [
+          {
+            label: 'Context Recall',
+            data: queryTypes.map(type => scores[type.key].context_recall * 100),
+            backgroundColor: '#818cf8',
+            borderRadius: 6,
+            maxBarThickness: 18
+          },
+          {
+            label: 'Correctness',
+            data: queryTypes.map(type => scores[type.key].correctness * 100),
+            backgroundColor: '#14b8a6',
+            borderRadius: 6,
+            maxBarThickness: 18
+          },
+          {
+            label: 'Composite',
+            data: queryTypes.map(type => scores[type.key].composite * 100),
+            backgroundColor: '#f59e0b',
+            borderRadius: 6,
+            maxBarThickness: 18
+          }
+        ]
+      },
+      options: {
+        indexAxis: 'y',
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              usePointStyle: true,
+              pointStyle: 'circle',
+              boxWidth: 8,
+              color: '#667085',
+              font: { size: 10 }
+            }
+          },
+          tooltip: {
+            callbacks: {
+              afterTitle: items => {
+                const idx = items[0].dataIndex;
+                const type = queryTypes[idx];
+                const item = scores[type.key];
+                return `${item.count} ${item.count === 1 ? 'question' : 'questions'}`;
+              },
+              label: ctx => `${ctx.dataset.label}: ${ctx.raw.toFixed(1)}%`
+            }
+          }
+        },
+        scales: {
+          x: {
+            min: 0,
+            max: 100,
+            grid: { color: '#eef1f5' },
+            ticks: { callback: value => `${value}%`, color: '#98a2b3', font: { size: 9 } }
+          },
+          y: {
+            grid: { display: false },
+            ticks: { color: '#475467', font: { size: 10, weight: '600' } }
+          }
+        }
+      }
+    });
+
+    renderQueryTypeInsights(configName, scores);
+  }
+
+  function renderQueryTypeInsights(configName, scores) {
+    const rows = state.data.queryTypes.map(type => ({
+      ...type,
+      ...scores[type.key]
+    }));
+    const byComposite = [...rows].sort((a, b) => b.composite - a.composite);
+    const best = byComposite[0];
+    const hardest = byComposite[byComposite.length - 1];
+    const weakestRecall = [...rows].sort((a, b) => a.context_recall - b.context_recall)[0];
+    const failedTypes = rows.filter(row => row.correctness < 0.999);
+    const oneQuestionTypes = rows.filter(row => row.count === 1).map(row => row.label);
+
+    const nonFinalNames = state.data.configs.map(c => c.name).filter(name => name !== 'final_combined');
+    const averageByType = state.data.queryTypes.map(type => {
+      const vals = nonFinalNames.map(name => state.data.queryTypeScores[name][type.key].composite);
+      return {
+        label: type.label,
+        key: type.key,
+        average: vals.reduce((a, b) => a + b, 0) / vals.length
+      };
+    }).sort((a, b) => a.average - b.average);
+
+    const overallHardest = averageByType[0];
+    const overallSecond = averageByType[1];
+
+    const cards = [
+      {
+        label: 'Strongest category',
+        value: fmtPct(best.composite),
+        title: best.label,
+        body: `${best.label} is the strongest category for <strong>${configName}</strong>, with ${fmtPct(best.correctness)} correctness and ${fmtPct(best.context_recall)} context recall.`
+      },
+      {
+        label: 'Weakest category',
+        value: fmtPct(hardest.composite),
+        title: hardest.label,
+        body: `${hardest.label} has the lowest composite for this configuration. ${hardest.count === 1 ? 'It contains only one question, so treat the number as a case study rather than a stable estimate.' : `It contains ${hardest.count} questions.`}`
+      },
+      {
+        label: 'Across baseline runs',
+        value: fmtPct(overallHardest.average),
+        title: `${overallHardest.label} is hardest`,
+        body: `Across the six non-final configurations, <strong>${overallHardest.label}</strong> averages ${fmtPct(overallHardest.average)} composite, followed by <strong>${overallSecond.label}</strong> at ${fmtPct(overallSecond.average)}. These categories demand broader or cross-document evidence.`
+      }
+    ];
+
+    if (configName === 'final_combined') {
+      cards.push({
+        label: 'Final-run result',
+        value: '7 / 7',
+        title: 'All query types reach 100% correctness',
+        body: `The final configuration eliminates answer-level failures across every category. Remaining variation is mostly retrieval efficiency: for example, counterfactual context is sufficient but noisy.`
+      });
+    } else if (failedTypes.length) {
+      cards.push({
+        label: 'Correctness failures',
+        value: `${failedTypes.length}`,
+        title: failedTypes.map(row => row.label).join(' · '),
+        body: `These query types have sub-100% correctness in <strong>${configName}</strong>. ${weakestRecall.context_recall < 0.999 ? `${weakestRecall.label} also has the weakest context recall (${fmtPct(weakestRecall.context_recall)}).` : ''}`
+      });
+    }
+
+    document.getElementById('query-type-insights').innerHTML = cards.map(card => `
+      <div class="query-insight-card">
+        <div class="query-insight-top">
+          <span>${card.label}</span>
+          <strong>${card.value}</strong>
+        </div>
+        <h3>${card.title}</h3>
+        <p>${card.body}</p>
+      </div>
+    `).join('') + `
+      <div class="query-sample-note">
+        <strong>Sample-size note:</strong> ${oneQuestionTypes.join(' and ')} each contain one question; category-level conclusions should be interpreted accordingly.
+      </div>`;
+  }
+
+  function setupFailureAnalysis() {
+    const select = document.getElementById('failure-type-filter');
+    const presentTypes = [...new Set(state.data.failureCases.map(item => item.type))];
+    select.innerHTML = [
+      '<option value="all">All highlighted failures</option>',
+      ...presentTypes.map(key => `<option value="${key}">${queryTypeMeta(key).label}</option>`)
+    ].join('');
+    select.value = 'all';
+    select.addEventListener('change', renderFailureCases);
+    renderFailureCases();
+  }
+
+  function renderFailureCases() {
+    const filter = document.getElementById('failure-type-filter').value;
+    const cases = state.data.failureCases.filter(item => filter === 'all' || item.type === filter);
+    const grid = document.getElementById('failure-grid');
+
+    grid.innerHTML = cases.map(item => {
+      const type = queryTypeMeta(item.type);
+      const contextDelta = item.after.context_recall - item.before.context_recall;
+      const correctDelta = item.after.correctness - item.before.correctness;
+      const failureKind = item.before.context_recall >= 0.999 && item.before.correctness < 0.999
+        ? 'Generation failure'
+        : 'Retrieval-led failure';
+
+      return `
+        <article class="failure-card">
+          <div class="failure-card-top">
+            <div class="failure-icon">${item.icon}</div>
+            <div class="failure-title-wrap">
+              <div class="failure-tags">
+                <span>${item.id.toUpperCase()}</span>
+                <span>${type.label}</span>
+                <span class="failure-config">${item.config}</span>
+              </div>
+              <h3>${item.label}</h3>
+            </div>
+            <div class="failure-kind ${failureKind === 'Generation failure' ? 'generation' : 'retrieval'}">${failureKind}</div>
+          </div>
+
+          <p class="failure-question">${item.question}</p>
+
+          <div class="failure-metric-strip">
+            <div><span>Context recall</span><strong>${fmtPct(item.before.context_recall)}</strong><em>→ ${fmtPct(item.after.context_recall)}</em></div>
+            <div><span>Correctness</span><strong>${fmtPct(item.before.correctness)}</strong><em>→ ${fmtPct(item.after.correctness)}</em></div>
+            <div><span>Faithfulness</span><strong>${fmtPct(item.before.faithfulness)}</strong><em>→ ${fmtPct(item.after.faithfulness)}</em></div>
+          </div>
+
+          <div class="failure-diagnosis">${item.diagnosis}</div>
+
+          <div class="failure-resolution">
+            <span class="resolution-arrow">↗</span>
+            <div><strong>Final configuration:</strong> ${item.afterNote}</div>
+          </div>
+
+          <details class="failure-details">
+            <summary>Inspect retrieval evidence</summary>
+            <div class="failure-evidence-grid">
+              <div>
+                <strong>Annotated relevant sources</strong>
+                <ul>${item.relevant.map(x => `<li>${x}</li>`).join('')}</ul>
+              </div>
+              <div>
+                <strong>Retrieved in failing run</strong>
+                <ul>${item.retrieved.map(x => `<li>${x}</li>`).join('')}</ul>
+              </div>
+            </div>
+            <div class="failure-delta-note">
+              Context recall ${fmtDelta(contextDelta)} · Correctness ${fmtDelta(correctDelta)} in the final run.
+            </div>
+          </details>
+        </article>`;
+    }).join('');
+  }
+
+  function setupCompareSelectors() {
+    const options = state.data.configs
+      .map(c => `<option value="${c.name}">${c.name}</option>`)
+      .join('');
+    const a = document.getElementById('config-a');
+    const b = document.getElementById('config-b');
+    a.innerHTML = options;
+    b.innerHTML = options;
+    a.value = 'chunk_small';
+    b.value = 'final_combined';
+    a.addEventListener('change', updateComparison);
+    b.addEventListener('change', updateComparison);
+    updateComparison();
+  }
+
+  function updateComparison() {
+    const a = byName(document.getElementById('config-a').value);
+    const b = byName(document.getElementById('config-b').value);
+    state.compareA = a;
+    state.compareB = b;
+    renderConfigMeta(a, b);
+    renderDeltas(a, b);
+    renderRadar(a, b);
+    renderInsight(a, b);
+  }
+
+  function renderConfigMeta(a, b) {
+    const card = (label, c) => `
+      <div class="config-meta-card">
+        <div class="name">${label}: ${c.name}</div>
+        <div class="meta-line"><span>Chunk size</span><strong>${c.chunkSize}</strong></div>
+        <div class="meta-line"><span>Overlap</span><strong>${c.overlap}</strong></div>
+        <div class="meta-line"><span>Top-k</span><strong>${c.topK}</strong></div>
+        <div class="meta-line"><span>Embedding</span><strong>${c.embedding}</strong></div>
+      </div>`;
+    document.getElementById('config-meta').innerHTML = card('A', a) + card('B', b);
+  }
+
+  function renderDeltas(a, b) {
+    const keys = [
+      'document_precision',
+      'document_recall',
+      'context_precision',
+      'context_recall',
+      'correctness',
+      'ragas_style_composite'
+    ];
+
+    document.getElementById('delta-grid').innerHTML = keys.map(key => {
+      const d = b.scores[key] - a.scores[key];
+      const cls = d > EPS ? 'up' : d < -EPS ? 'down' : 'flat';
+      return `
+        <div class="delta-card">
+          <div class="delta-name">${metric(key).label}</div>
+          <div class="delta-value delta ${cls}">${fmtDelta(d)}</div>
+        </div>`;
+    }).join('');
+  }
+
+  function renderRadar(a, b) {
+    const keys = [
+      'document_precision',
+      'document_recall',
+      'context_precision',
+      'context_recall',
+      'faithfulness',
+      'correctness'
+    ];
+    const ctx = document.getElementById('radarChart');
+    if (state.radarChart) state.radarChart.destroy();
+
+    state.radarChart = new Chart(ctx, {
+      type: 'radar',
+      data: {
+        labels: keys.map(k => metric(k).short),
+        datasets: [
+          {
+            label: a.name,
+            data: keys.map(k => a.scores[k] * 100),
+            borderColor: '#4f46e5',
+            backgroundColor: 'rgba(79,70,229,.12)',
+            pointBackgroundColor: '#4f46e5',
+            borderWidth: 2
+          },
+          {
+            label: b.name,
+            data: keys.map(k => b.scores[k] * 100),
+            borderColor: '#0f766e',
+            backgroundColor: 'rgba(15,118,110,.08)',
+            pointBackgroundColor: '#0f766e',
+            borderWidth: 2
+          }
+        ]
+      },
+      options: {
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: { boxWidth: 10, usePointStyle: true, pointStyle: 'circle' }
+          }
+        },
+        scales: {
+          r: {
+            min: 0,
+            max: 100,
+            beginAtZero: true,
+            ticks: {
+              stepSize: 20,
+              backdropColor: 'transparent',
+              color: '#98a2b3',
+              font: { size: 9 }
+            },
+            grid: { color: '#e6eaf0' },
+            angleLines: { color: '#e6eaf0' },
+            pointLabels: { color: '#475467', font: { size: 10, weight: '600' } }
+          }
+        }
+      }
+    });
+  }
+
+  function findControlledPair(a, b) {
+    return state.data.experiments.find(exp =>
+      (exp.a === a.name && exp.b === b.name) ||
+      (exp.a === b.name && exp.b === a.name)
+    );
+  }
+
+  function renderInsight(a, b) {
+    const box = document.getElementById('comparison-insight');
+
+    if (a.name === b.name) {
+      box.innerHTML = `
+        <div class="comparison-intel-heading"><span>✦</span> Comparison insight</div>
+        <div class="comparison-summary">You selected the same configuration twice. Choose a different Configuration B to inspect trade-offs.</div>
+      `;
+      return;
+    }
+
+    const deltas = state.data.metrics.map(m => ({
+      ...m,
+      delta: b.scores[m.key] - a.scores[m.key]
+    }));
+    const strongestGain = [...deltas].sort((x, y) => y.delta - x.delta)[0];
+    const strongestDrop = [...deltas].sort((x, y) => x.delta - y.delta)[0];
+    const comp = b.scores.ragas_style_composite - a.scores.ragas_style_composite;
+    const controlled = findControlledPair(a, b);
+
+    const bullets = [];
+
+    if (Math.abs(comp) < EPS) {
+      bullets.push(`Composite is effectively tied between <strong>${a.name}</strong> and <strong>${b.name}</strong>.`);
+    } else {
+      bullets.push(`<strong>${b.name}</strong> is ${comp > 0 ? 'ahead of' : 'behind'} <strong>${a.name}</strong> by <strong>${Math.abs(comp * 100).toFixed(1)} pp</strong> on composite.`);
+    }
+
+    if (strongestGain.delta > EPS) {
+      bullets.push(`Largest gain: <strong>${strongestGain.label}</strong> (${fmtDelta(strongestGain.delta)}).`);
+    }
+    if (strongestDrop.delta < -EPS) {
+      bullets.push(`Largest trade-off: <strong>${strongestDrop.label}</strong> (${fmtDelta(strongestDrop.delta)}).`);
+    }
+
+    const docP = b.scores.document_precision - a.scores.document_precision;
+    const docR = b.scores.document_recall - a.scores.document_recall;
+    const ctxR = b.scores.context_recall - a.scores.context_recall;
+    const correct = b.scores.correctness - a.scores.correctness;
+
+    if (docR > EPS && docP < -EPS) {
+      bullets.push(`This pair shows a classic <strong>precision–recall trade-off</strong>: broader retrieval finds more relevant evidence but also brings in more noise.`);
+    }
+
+    if (ctxR > 0.03 && correct > 0.03) {
+      bullets.push(`The extra evidence coverage is accompanied by higher answer correctness, which is the behavior the evaluation harness is designed to expose.`);
+    }
+
+    if (Math.abs(a.scores.faithfulness - b.scores.faithfulness) < EPS && a.scores.faithfulness >= 0.999) {
+      bullets.push(`Faithfulness remains saturated at 100%, so the meaningful separation in this pair comes from retrieval coverage and correctness rather than hallucination control.`);
+    }
+
+    const pairLabel = controlled
+      ? `Controlled experiment · ${controlled.title}`
+      : 'Cross-configuration comparison · multiple variables may differ';
+
+    box.innerHTML = `
+      <div class="comparison-intel-heading"><span>✦</span> Comparison insight</div>
+      <div class="comparison-pair-label">${pairLabel}</div>
+      <ul class="comparison-bullets">
+        ${bullets.map(item => `<li>${item}</li>`).join('')}
+      </ul>
+    `;
+  }
+
+  function setupMatrix() {
+    const select = document.getElementById('sort-metric');
+    select.innerHTML = state.data.metrics
+      .map(m => `<option value="${m.key}">${m.label}</option>`)
+      .join('');
+    select.value = 'ragas_style_composite';
+    select.addEventListener('change', renderMatrix);
+
+    document.getElementById('matrix-head').innerHTML = `
+      <tr>
+        <th>Configuration</th>
+        ${state.data.metrics.map(m => `<th>${m.short}</th>`).join('')}
+      </tr>`;
+    renderMatrix();
+  }
+
+  function renderMatrix() {
+    const sortKey = document.getElementById('sort-metric').value;
+    const configs = [...state.data.configs]
+      .sort((a, b) => b.scores[sortKey] - a.scores[sortKey]);
+    const best = bestConfig().name;
+    const maxima = {};
+
+    state.data.metrics.forEach(m => {
+      maxima[m.key] = Math.max(...state.data.configs.map(c => c.scores[m.key]));
+    });
+
+    document.getElementById('matrix-body').innerHTML = configs.map(c => `
+      <tr class="${c.name === best ? 'best-row' : ''}">
+        <td>
+          <div class="config-cell">
+            ${c.name}
+            ${c.name === best ? '<span class="best-mini">BEST</span>' : ''}
+          </div>
+        </td>
+        ${state.data.metrics.map(m => {
+          const isTop = Math.abs(c.scores[m.key] - maxima[m.key]) < EPS;
+          return `<td><span class="score-chip ${isTop ? 'top' : ''}">${fmtPct(c.scores[m.key])}</span></td>`;
+        }).join('')}
+      </tr>`).join('');
+  }
+
+  google.script.run
+    .withSuccessHandler(initDashboard)
+    .withFailureHandler(error => {
+      document.getElementById('loading').innerHTML = `
+        <strong>Could not load dashboard data.</strong>
+        <div>${error.message || error}</div>`;
+    })
+    .getDashboardData();
+</script>
