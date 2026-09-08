@@ -1,78 +1,102 @@
-# RAG Evaluation & Retrieval Benchmark
+# RAG Evaluation Benchmark
 
-A small end-to-end Retrieval-Augmented Generation (RAG) system with an
-evaluation harness for measuring retrieval quality, answer faithfulness, and
-answer correctness across multiple pipeline configurations.
+A small, end-to-end Retrieval-Augmented Generation (RAG) evaluation system built to measure not only whether the correct documents are retrieved, but also whether the retrieved context actually supports the answer and whether the generated answer is correct and grounded.
 
-The project uses a domain-specific badminton computer-vision corpus and
-focuses on an important RAG engineering problem:
-
-> How do we know whether a change to the retrieval pipeline actually improves
-> the quality of the final answers?
+The project includes a parameterized RAG pipeline, an evaluation harness, controlled experiments across chunking / top-k / embedding configurations, checkpointing for API resilience, and an interactive Google Apps Script dashboard.
 
 ---
 
 ## 1. Project Overview
 
-The system contains:
+The system evaluates a RAG pipeline across three levels:
 
-- 17 badminton computer-vision documents
-- 16 evaluation questions
-- Configurable chunk size, overlap, top-k, and embedding model
-- ChromaDB vector retrieval
-- Gemini-based answer generation
-- Source-level retrieval evaluation
-- Ragas-inspired context evaluation
-- LLM-based faithfulness and correctness evaluation
-- Automated comparison across configurations
-- Google Sheets + Apps Script evaluation dashboard
+1. **Document-level retrieval**
+   - Did retrieval find the correct source documents?
 
-The evaluation set includes:
+2. **Context-level retrieval**
+   - Did the retrieved chunks actually contain the information needed to answer the question?
+   - Were relevant chunks ranked above irrelevant ones?
 
-- Single-hop questions
-- Paraphrased questions
-- Comparative questions
-- Multi-hop questions
-- Conditional questions
-- Abstract questions
-- Counterfactual questions
+3. **Generation quality**
+   - Was the final answer faithful to the retrieved context?
+   - Did it match the expected answer?
 
-The goal is to separate retrieval failures from generation failures and
-measure the effect of different RAG configurations.
+This separation makes it possible to distinguish:
+
+> Retrieval failure → Context failure → Generation failure
+
+instead of relying on a single end-to-end score.
 
 ---
 
-## 2. RAG Pipeline
+## 2. Dataset
+
+The benchmark uses a small domain-specific corpus focused on **computer vision for badminton analysis**.
+
+### Documents
+
+The dataset contains **17 short documents** covering topics such as:
+
+- badminton computer vision overview
+- shuttlecock detection
+- shuttlecock tracking
+- TrackNet
+- TrackNetV3
+- player detection
+- player tracking
+- pose estimation
+- hit detection
+- rally analysis
+- court analysis
+- trajectory analysis
+- badminton datasets
+- video analysis pipeline
+- shot classification
+- performance analytics
+- YOLO
+
+The documents are intentionally concise so that retrieval behavior can be inspected and evaluated easily.
+
+### Evaluation Questions
+
+The benchmark contains **16 questions** covering different reasoning patterns:
+
+- single-hop questions
+- paraphrasing
+- comparative questions
+- multi-hop questions
+- conditional questions
+- abstract questions
+- counterfactual questions
+
+A ground-truth file stores:
+
+- question ID
+- question
+- expected answer
+- relevant source document(s)
+
+---
+
+## 3. RAG Pipeline
+
+The pipeline is:
 
 ```text
 Documents
-    |
-    v
-Document Loading
-    |
-    v
+    ↓
 Chunking
-    |
-    v
-Embedding Model
-    |
-    v
-ChromaDB Vector Store
-    |
-    v
-Query Embedding
-    |
-    v
-Top-k Retrieval
-    |
-    v
-Retrieved Context
-    |
-    v
-Gemini LLM
-    |
-    v
-Generated Answer
-    |
-    v
-Evaluation Harness
+    ↓
+Embeddings
+    ↓
+ChromaDB
+    ↓
+Query embedding
+    ↓
+Top-k retrieval
+    ↓
+Retrieved context
+    ↓
+Gemini generation
+    ↓
+Answer
