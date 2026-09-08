@@ -148,5 +148,14 @@
       "badminton_11_trajectory_analysis.txt",
       "badminton_14_shot_classification.txt"
     ]
-  }
+  },
+  {
+  "id": "q16",
+  "type": "single_hop",
+  "question": "Who worked on TrackNet and what limitations did we face while using TrackNet?",
+  "expected_answer": "Arvind KG, who worked on TrackNet, noted that TrackNet can struggle with occlusions and very small or blurred objects because earlier versions rely heavily on visual cues. It can also face challenges with complex motion and varying lighting or background conditions.",
+  "relevant_sources": [
+    "badminton_04_tracknet"
+  ]
+}
 ]

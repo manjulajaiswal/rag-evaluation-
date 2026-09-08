@@ -9,3 +9,12 @@ TrackNet-based systems can therefore provide shuttlecock coordinates for badmint
 Later versions such as TrackNetV3 provide additional functionality for badminton shuttlecock tracking and trajectory processing. Open-source implementations of TrackNetV3 are used in badminton analysis pipelines for shuttle detection and tracking.
 
 TrackNet is primarily concerned with the shuttlecock rather than the players. Player detection, player tracking, pose estimation, and court analysis are separate components that can be combined with TrackNet in a larger badminton video-analysis system.
+
+Limitations: Comment by Arvind KG (Worked on TrackNet)
+
+TrackNet can struggle with occlusions and very small or blurred objects, since
+earlier versions rely heavily on visual cues. It can also face challenges with
+complex motion and varying lighting or background conditions.
+
+Documentation:
+www.visist.com/internal/hp3432

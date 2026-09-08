@@ -8,60 +8,84 @@
     "embedding_model": "sentence-transformers/all-mpnet-base-v2"
   },
   "aggregate_scores": {
-    "retrieval_precision": 0.5777777777777777,
-    "retrieval_recall": 0.65,
+    "document_precision": 0.5416666666666666,
+    "document_recall": 0.609375,
+    "context_precision": 0.8854166666666666,
+    "context_recall": 0.8333333333333334,
     "faithfulness": 1.0,
-    "correctness": 0.7333333333333333
+    "correctness": 0.8125,
+    "ragas_style_composite": 0.8828125
   },
   "scores_by_type": {
     "single_hop": {
-      "count": 3,
-      "retrieval_precision": 0.6666666666666666,
-      "retrieval_recall": 1.0,
+      "count": 4,
+      "document_precision": 0.5,
+      "document_recall": 0.75,
+      "context_precision": 0.875,
+      "context_recall": 0.9166666666666666,
       "faithfulness": 1.0,
-      "correctness": 1.0
+      "correctness": 1.0,
+      "ragas_style_composite": 0.9479166666666666
     },
     "paraphrasing": {
       "count": 2,
-      "retrieval_precision": 0.5,
-      "retrieval_recall": 0.75,
+      "document_precision": 0.5,
+      "document_recall": 0.75,
+      "context_precision": 0.9166666666666666,
+      "context_recall": 0.75,
       "faithfulness": 1.0,
-      "correctness": 1.0
+      "correctness": 1.0,
+      "ragas_style_composite": 0.9166666666666666
     },
     "comparative": {
       "count": 2,
-      "retrieval_precision": 0.8333333333333333,
-      "retrieval_recall": 0.75,
+      "document_precision": 0.8333333333333333,
+      "document_recall": 0.75,
+      "context_precision": 1.0,
+      "context_recall": 1.0,
       "faithfulness": 1.0,
-      "correctness": 1.0
+      "correctness": 1.0,
+      "ragas_style_composite": 1.0
     },
     "multi_hop": {
       "count": 4,
-      "retrieval_precision": 0.41666666666666663,
-      "retrieval_recall": 0.4583333333333333,
+      "document_precision": 0.41666666666666663,
+      "document_recall": 0.4583333333333333,
+      "context_precision": 0.7916666666666666,
+      "context_recall": 0.7916666666666666,
       "faithfulness": 1.0,
-      "correctness": 0.25
+      "correctness": 0.5,
+      "ragas_style_composite": 0.7708333333333333
     },
     "conditional": {
       "count": 2,
-      "retrieval_precision": 0.8333333333333333,
-      "retrieval_recall": 0.5833333333333333,
+      "document_precision": 0.8333333333333333,
+      "document_recall": 0.5833333333333333,
+      "context_precision": 0.9166666666666666,
+      "context_recall": 1.0,
       "faithfulness": 1.0,
-      "correctness": 1.0
+      "correctness": 1.0,
+      "ragas_style_composite": 0.9791666666666666
     },
     "abstract": {
       "count": 1,
-      "retrieval_precision": 0.3333333333333333,
-      "retrieval_recall": 0.5,
+      "document_precision": 0.3333333333333333,
+      "document_recall": 0.5,
+      "context_precision": 1.0,
+      "context_recall": 0.5,
       "faithfulness": 1.0,
-      "correctness": 0.0
+      "correctness": 0.0,
+      "ragas_style_composite": 0.625
     },
     "counterfactual": {
       "count": 1,
-      "retrieval_precision": 0.3333333333333333,
-      "retrieval_recall": 0.25,
+      "document_precision": 0.3333333333333333,
+      "document_recall": 0.25,
+      "context_precision": 0.8333333333333333,
+      "context_recall": 0.5,
       "faithfulness": 1.0,
-      "correctness": 1.0
+      "correctness": 1.0,
+      "ragas_style_composite": 0.8333333333333333
     }
   },
   "results": [
@@ -70,7 +94,7 @@
       "type": "single_hop",
       "question": "What is the primary purpose of TrackNet-based approaches in badminton video analysis?",
       "expected_answer": "TrackNet-based approaches are primarily used to detect and track the small, fast-moving shuttlecock across video frames.",
-      "generated_answer": "Based on the provided context, the primary purpose of TrackNet-based approaches (or TrackNetV3) in badminton video analysis is the detection and tracking of the shuttlecock (it is primarily concerned with the shuttlecock rather than the players).",
+      "generated_answer": "The primary purpose of TrackNet-based approaches in badminton video analysis is shuttlecock detection and tracking.",
       "relevant_sources": [
         "badminton_04_tracknet.txt"
       ],
@@ -79,17 +103,70 @@
         "badminton_02_shuttle_detection.txt",
         "badminton_01_overview.txt"
       ],
-      "retrieval_precision": 0.3333333333333333,
-      "retrieval_recall": 1.0,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "badminton_04_tracknet.txt_2",
+          "document_id": "badminton_04_tracknet.txt",
+          "distance": 0.32149651646614075,
+          "text": "TrackNetV3 are used in badminton analysis pipelines for shuttle detection and tracking. TrackNet is primarily concerned with the shuttlecock rather than the players. Player detection, player tracking, pose estimation, and court analysis are separate components that can be combined with TrackNet in a larger badminton video-analysis system. Limitations: Comment by Arvind KG (Worked on TrackNet) TrackNet can struggle with occlusions and very small or blurred objects, since earlier versions rely heavily on visual cues. It can also face challenges with"
+        },
+        {
+          "chunk_id": "badminton_02_shuttle_detection.txt_2",
+          "document_id": "badminton_02_shuttle_detection.txt",
+          "distance": 0.36584097146987915,
+          "text": "reason, badminton-specific approaches such as TrackNet were developed to detect and track the shuttlecock using information from consecutive frames. Reliable shuttlecock detection is important because errors at this stage can affect later stages of the pipeline. Missing the shuttlecock in several frames can create gaps in its trajectory and make it harder to determine events such as hits or landing positions. In a complete badminton video-analysis system, shuttlecock detection is therefore an early stage that provides visual information required by"
+        },
+        {
+          "chunk_id": "badminton_01_overview.txt_0",
+          "document_id": "badminton_01_overview.txt",
+          "distance": 0.38758450746536255,
+          "text": "Badminton Video Analysis Using Computer Vision Computer vision can be used to analyze badminton match videos and automatically extract information about players, the shuttlecock, court movement, and events during a rally. A typical badminton video-analysis pipeline combines several computer-vision components rather than relying on a single model. One part of the system detects and tracks the shuttlecock across video frames. Because the shuttlecock is small and moves quickly, tracking it requires models designed for small and fast-moving objects. TrackNet-based approaches"
+        }
+      ],
+      "document_precision": 0.3333333333333333,
+      "document_recall": 1.0,
+      "context_precision": 1.0,
+      "context_recall": 1.0,
+      "context_chunk_judgments": [
+        {
+          "rank": 1,
+          "chunk_id": "badminton_04_tracknet.txt_2",
+          "document_id": "badminton_04_tracknet.txt",
+          "relevant": 1,
+          "reason": "Explicitly states that TrackNet is used for shuttle detection and tracking, and is primarily concerned with the shuttlecock."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "badminton_02_shuttle_detection.txt_2",
+          "document_id": "badminton_02_shuttle_detection.txt",
+          "relevant": 1,
+          "reason": "Explains that TrackNet was developed to detect and track the shuttlecock using information from consecutive frames."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "badminton_01_overview.txt_0",
+          "document_id": "badminton_01_overview.txt",
+          "relevant": 1,
+          "reason": "Connects tracking the shuttlecock (which moves quickly and is small) to TrackNet-based approaches."
+        }
+      ],
+      "context_recall_claims": [
+        {
+          "claim": "TrackNet-based approaches are primarily used to detect and track the small, fast-moving shuttlecock across video frames.",
+          "supported": 1,
+          "reason": "Chunks 1, 2, and 3 state that TrackNet is used for shuttlecock detection and tracking, and Chunk 3 notes the shuttlecock is small and moves quickly."
+        }
+      ],
       "faithfulness": 1,
-      "correctness": 1
+      "correctness": 1,
+      "ragas_style_composite": 1.0
     },
     {
       "id": "q02",
       "type": "single_hop",
       "question": "What role does YOLO play in a badminton computer-vision pipeline?",
       "expected_answer": "YOLO can be used as an object detector to locate players and other objects of interest in individual video frames, typically producing bounding boxes and class information.",
-      "generated_answer": "Based on the provided context, YOLO serves as the player-detection stage before player tracking, pose estimation, and higher-level performance analysis. It can be used to detect players and other objects of interest, and its detections can also provide inputs to downstream tracking systems.",
+      "generated_answer": "In a badminton computer-vision pipeline, YOLO serves as the player-detection stage (detecting players and other objects of interest) and can provide inputs to downstream tracking systems, such as associating player detections across consecutive frames using a multi-object tracker to maintain consistent player identities. It is used before player tracking, pose estimation, and higher-level performance analysis.",
       "relevant_sources": [
         "badminton_16_yolo.txt"
       ],
@@ -98,17 +175,75 @@
         "badminton_16_yolo.txt",
         "badminton_16_yolo.txt"
       ],
-      "retrieval_precision": 1.0,
-      "retrieval_recall": 1.0,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "badminton_16_yolo.txt_0",
+          "document_id": "badminton_16_yolo.txt",
+          "distance": 0.36652737855911255,
+          "text": "YOLO for Badminton Video Analysis YOLO, or You Only Look Once, is an object-detection architecture that can be used to locate objects in video frames. In badminton analysis, YOLO-based models can be used to detect players and other objects of interest. A YOLO detector processes an image and predicts object locations and class information. The detected player can be represented using a bounding box, which provides its approximate location in the frame. Badminton computer-vision projects can combine YOLO with other"
+        },
+        {
+          "chunk_id": "badminton_16_yolo.txt_1",
+          "document_id": "badminton_16_yolo.txt",
+          "distance": 0.4755169749259949,
+          "text": "using a bounding box, which provides its approximate location in the frame. Badminton computer-vision projects can combine YOLO with other specialized models. For example, a system may use YOLO for player detection while using TrackNetV3 specifically for shuttlecock tracking. YOLO is therefore different from TrackNet. YOLO is a general object-detection approach that can detect objects such as players, while TrackNet is designed around the problem of tracking small and fast-moving sports objects such as a badminton shuttlecock. YOLO detections can"
+        },
+        {
+          "chunk_id": "badminton_16_yolo.txt_2",
+          "document_id": "badminton_16_yolo.txt",
+          "distance": 0.5077258348464966,
+          "text": "is designed around the problem of tracking small and fast-moving sports objects such as a badminton shuttlecock. YOLO detections can also provide inputs to downstream tracking systems. A multi-object tracker can associate player detections across consecutive frames and maintain a consistent identity for each player. In a badminton analysis pipeline, YOLO can therefore serve as the player-detection stage before player tracking, pose estimation, and higher-level performance analysis."
+        }
+      ],
+      "document_precision": 1.0,
+      "document_recall": 1.0,
+      "context_precision": 1.0,
+      "context_recall": 1.0,
+      "context_chunk_judgments": [
+        {
+          "rank": 1,
+          "chunk_id": "badminton_16_yolo.txt_0",
+          "document_id": "badminton_16_yolo.txt",
+          "relevant": 1,
+          "reason": "Explains that YOLO is an object detector used to locate objects like players in video frames and produce bounding boxes and class information."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "badminton_16_yolo.txt_1",
+          "document_id": "badminton_16_yolo.txt",
+          "relevant": 1,
+          "reason": "Discusses YOLO's use for player detection via bounding boxes in badminton computer-vision projects."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "badminton_16_yolo.txt_2",
+          "document_id": "badminton_16_yolo.txt",
+          "relevant": 1,
+          "reason": "Explains YOLO's role as the player-detection stage in a badminton analysis pipeline before downstream tracking and analysis."
+        }
+      ],
+      "context_recall_claims": [
+        {
+          "claim": "YOLO can be used as an object detector to locate players and other objects of interest in individual video frames",
+          "supported": 1,
+          "reason": "Chunk 1 states that YOLO is an object-detection architecture used to locate objects in video frames, specifically detecting players and other objects of interest."
+        },
+        {
+          "claim": "YOLO typically produces bounding boxes and class information",
+          "supported": 1,
+          "reason": "Chunk 1 states that a YOLO detector processes an image and predicts object locations and class information, with detections represented using a bounding box."
+        }
+      ],
       "faithfulness": 1,
-      "correctness": 1
+      "correctness": 1,
+      "ragas_style_composite": 1.0
     },
     {
       "id": "q03",
       "type": "single_hop",
       "question": "What information can pose estimation provide about a badminton player that a simple player bounding box cannot?",
       "expected_answer": "Pose estimation can provide the positions of body joints such as the shoulders, elbows, wrists, hips, knees, and ankles, describing the player's body configuration and movement rather than only the player's bounding box.",
-      "generated_answer": "Based on the provided context, pose estimation can provide information about the player's body configuration and movement (such as key body joints, footwork, body position, racket-related movements, and player actions), whereas a simple player bounding box only provides information on where the player is located (their approximate position and size).",
+      "generated_answer": "Based on the provided context, pose estimation can provide details on the player's body configuration and movement, whereas a simple player bounding box only shows where the player is located. Pose estimation can identify key body joints (such as shoulders, elbows, wrists, hips, knees, and ankles) and connect them into a human skeleton, which can be used to study footwork, body position, racket-related movements, and player actions, as well as provide features for shot classification and performance analysis.",
       "relevant_sources": [
         "badminton_07_pose_estimation.txt"
       ],
@@ -117,17 +252,75 @@
         "badminton_07_pose_estimation.txt",
         "badminton_05_player_detection.txt"
       ],
-      "retrieval_precision": 0.6666666666666666,
-      "retrieval_recall": 1.0,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "badminton_07_pose_estimation.txt_1",
+          "document_id": "badminton_07_pose_estimation.txt",
+          "distance": 0.40770548582077026,
+          "text": "analysis system can estimate the player's body configuration and movement. Pose estimation can be used to study footwork, body position, racket-related movements, and player actions. It can also provide features for shot classification and performance analysis. Modern badminton computer-vision projects commonly combine player detection with pose estimation. YOLO-based pose models or other pose-estimation frameworks can generate keypoints for players detected in match footage. Pose estimation is different from player tracking. Tracking identifies the same player across time, while pose estimation"
+        },
+        {
+          "chunk_id": "badminton_07_pose_estimation.txt_0",
+          "document_id": "badminton_07_pose_estimation.txt",
+          "distance": 0.4414949417114258,
+          "text": "Badminton Pose Estimation Pose estimation identifies key body joints of a player from video frames. A pose model can estimate points such as the shoulders, elbows, wrists, hips, knees, and ankles and connect them into a human skeleton. Pose information provides more detail than a simple player bounding box. Instead of knowing only where the player is located, a badminton analysis system can estimate the player's body configuration and movement. Pose estimation can be used to study footwork, body position,"
+        },
+        {
+          "chunk_id": "badminton_05_player_detection.txt_1",
+          "document_id": "badminton_05_player_detection.txt",
+          "distance": 0.4772046208381653,
+          "text": "The resulting bounding boxes can provide the approximate position and size of each player. Player detection is an important first step for movement analysis because later tracking systems need detections from consecutive frames. The detected player regions can also be used as input for pose estimation. A badminton-specific detection system may need to distinguish the two players on the court from spectators, officials, or people outside the playing area. Camera angle and occlusion can make this more difficult in broadcast"
+        }
+      ],
+      "document_precision": 0.6666666666666666,
+      "document_recall": 1.0,
+      "context_precision": 1.0,
+      "context_recall": 1.0,
+      "context_chunk_judgments": [
+        {
+          "rank": 1,
+          "chunk_id": "badminton_07_pose_estimation.txt_1",
+          "document_id": "badminton_07_pose_estimation.txt",
+          "relevant": 1,
+          "reason": "Mentions that pose estimation can estimate the player's body configuration and movement."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "badminton_07_pose_estimation.txt_0",
+          "document_id": "badminton_07_pose_estimation.txt",
+          "relevant": 1,
+          "reason": "Directly answers the question by stating pose estimation identifies key body joints (shoulders, elbows, wrists, hips, knees, ankles) and provides more detail than a simple player bounding box."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "badminton_05_player_detection.txt_1",
+          "document_id": "badminton_05_player_detection.txt",
+          "relevant": 0,
+          "reason": "Discusses player bounding boxes and player detection as input for pose estimation, but does not state what pose estimation provides about the player compared to a bounding box."
+        }
+      ],
+      "context_recall_claims": [
+        {
+          "claim": "Pose estimation can provide the positions of body joints such as the shoulders, elbows, wrists, hips, knees, and ankles.",
+          "supported": 1,
+          "reason": "Explicitly stated in Chunk 2 that a pose model can estimate points such as the shoulders, elbows, wrists, hips, knees, and ankles."
+        },
+        {
+          "claim": "Pose estimation describes the player's body configuration and movement rather than only the player's bounding box.",
+          "supported": 1,
+          "reason": "Explicitly stated in Chunk 2 that pose information provides more detail than a simple bounding box and estimates the player's body configuration and movement."
+        }
+      ],
       "faithfulness": 1,
-      "correctness": 1
+      "correctness": 1,
+      "ragas_style_composite": 1.0
     },
     {
       "id": "q04",
       "type": "paraphrasing",
       "question": "How can a computer-vision system follow the flight path of the shuttlecock rather than merely locating it in individual images?",
       "expected_answer": "The system can use shuttlecock tracking to connect detected shuttlecock positions across consecutive video frames and reconstruct its movement as a continuous trajectory.",
-      "generated_answer": "Based on the provided context, the system follows the flight path of the shuttlecock through \"shuttlecock tracking,\" which is the process of following the shuttlecock across consecutive video frames after detecting its position. Specifically, tracking connects detections across time to reconstruct its movement and produce a continuous trajectory.",
+      "generated_answer": "A computer-vision system follows the flight path of the shuttlecock through shuttlecock tracking, which is the process of following the shuttlecock across consecutive video frames after detecting its position to produce a continuous trajectory representing its movement during a rally. While detection identifies the shuttlecock in an individual frame, tracking connects these detections across time to reconstruct its movement. TrackNet-based approaches are commonly used for this task because the shuttlecock is small and moves quickly, and the system handles missing detections and noisy predictions rather than assuming the shuttlecock will be visible in every frame.",
       "relevant_sources": [
         "badminton_03_shuttle_tracking.txt"
       ],
@@ -136,17 +329,75 @@
         "badminton_03_shuttle_tracking.txt",
         "badminton_01_overview.txt"
       ],
-      "retrieval_precision": 0.6666666666666666,
-      "retrieval_recall": 1.0,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "badminton_03_shuttle_tracking.txt_0",
+          "document_id": "badminton_03_shuttle_tracking.txt",
+          "distance": 0.594892144203186,
+          "text": "Badminton Shuttlecock Tracking Shuttlecock tracking is the process of following the shuttlecock across consecutive video frames after detecting its position. The objective is to produce a continuous trajectory that represents how the shuttlecock moves during a rally. Tracking is difficult because the shuttlecock is very small, moves rapidly, and can become blurred or temporarily invisible. A tracking system therefore needs to handle missing detections and noisy predictions instead of assuming that the shuttlecock will be visible in every frame. TrackNet-based"
+        },
+        {
+          "chunk_id": "badminton_03_shuttle_tracking.txt_2",
+          "document_id": "badminton_03_shuttle_tracking.txt",
+          "distance": 0.6139326691627502,
+          "text": "The output of tracking can include the shuttlecock coordinates for each frame, confidence information, and reconstructed track segments. A continuous trajectory can then be used by downstream systems for event detection, landing-point estimation, and tactical analysis. Shuttlecock tracking is different from shuttlecock detection. Detection identifies the shuttlecock in an individual frame, while tracking connects detections across time to reconstruct its movement."
+        },
+        {
+          "chunk_id": "badminton_01_overview.txt_1",
+          "document_id": "badminton_01_overview.txt",
+          "distance": 0.6520959734916687,
+          "text": "Because the shuttlecock is small and moves quickly, tracking it requires models designed for small and fast-moving objects. TrackNet-based approaches are commonly used for this task. Another part of the system detects and tracks players. Object detection models such as YOLO can identify players in individual frames, while tracking algorithms can maintain player identities across consecutive frames. Pose estimation can additionally provide body-joint information for analyzing player movement. The extracted information can then be used for higher-level analysis. Examples include"
+        }
+      ],
+      "document_precision": 0.6666666666666666,
+      "document_recall": 1.0,
+      "context_precision": 1.0,
+      "context_recall": 1.0,
+      "context_chunk_judgments": [
+        {
+          "rank": 1,
+          "chunk_id": "badminton_03_shuttle_tracking.txt_0",
+          "document_id": "badminton_03_shuttle_tracking.txt",
+          "relevant": 1,
+          "reason": "Explains that shuttlecock tracking follows the shuttlecock across consecutive video frames to produce a continuous trajectory representing its movement."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "badminton_03_shuttle_tracking.txt_2",
+          "document_id": "badminton_03_shuttle_tracking.txt",
+          "relevant": 1,
+          "reason": "Explains that tracking connects detections across time to reconstruct the movement of the shuttlecock, unlike detection which only identifies it in an individual frame."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "badminton_01_overview.txt_1",
+          "document_id": "badminton_01_overview.txt",
+          "relevant": 0,
+          "reason": "Discusses model types and player tracking/detection, but does not explain how a system follows the flight path of the shuttlecock beyond mentioning tracking models."
+        }
+      ],
+      "context_recall_claims": [
+        {
+          "claim": "The system can use shuttlecock tracking to connect detected shuttlecock positions across consecutive video frames",
+          "supported": 1,
+          "reason": "Chunk 1 and Chunk 2 state that tracking follows the shuttlecock across consecutive video frames and connects detections across time."
+        },
+        {
+          "claim": "The system can reconstruct the shuttlecock's movement as a continuous trajectory",
+          "supported": 1,
+          "reason": "Chunk 1 and Chunk 2 state that the objective is to produce a continuous trajectory and reconstruct its movement."
+        }
+      ],
       "faithfulness": 1,
-      "correctness": 1
+      "correctness": 1,
+      "ragas_style_composite": 1.0
     },
     {
       "id": "q05",
       "type": "paraphrasing",
       "question": "How can a badminton system identify where a player is in each video frame before analyzing the player's movement over time?",
       "expected_answer": "An object detector such as YOLO can identify the player in individual frames and represent the player's location using a bounding box.",
-      "generated_answer": "Based on the provided context, a badminton system can identify where a player is by using player detection as an important first step, which provides bounding boxes giving the approximate position and size of each player in consecutive frames for later tracking systems.",
+      "generated_answer": "To identify where a player is in each video frame, a badminton system first uses player detection, which provides bounding boxes indicating the approximate position and size of each player. These player detections from consecutive frames are then combined with a tracking algorithm (such as multi-object tracking methods like ByteTrack) to connect the detections and maintain consistent identities and trajectories for the players over time.",
       "relevant_sources": [
         "badminton_05_player_detection.txt",
         "badminton_16_yolo.txt"
@@ -156,17 +407,75 @@
         "badminton_06_player_tracking.txt",
         "badminton_05_player_detection.txt"
       ],
-      "retrieval_precision": 0.3333333333333333,
-      "retrieval_recall": 0.5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "badminton_13_video_analysis_pipeline.txt_0",
+          "document_id": "badminton_13_video_analysis_pipeline.txt",
+          "distance": 0.37502551078796387,
+          "text": "Badminton Video Analysis Pipeline A badminton video-analysis pipeline combines several computer-vision stages to convert raw match footage into useful sports information. A typical pipeline begins with video input and may first detect the badminton court and players. Player detection can then be combined with a tracking algorithm to maintain player identities across frames. In parallel, a shuttlecock detector or TrackNet-based model can identify and track the shuttlecock. Pose estimation can provide body keypoints for the players. The extracted information can"
+        },
+        {
+          "chunk_id": "badminton_06_player_tracking.txt_0",
+          "document_id": "badminton_06_player_tracking.txt",
+          "distance": 0.40264496207237244,
+          "text": "Badminton Player Tracking Player tracking connects player detections across consecutive video frames. Instead of treating every detection as a new person, a tracking algorithm assigns a consistent identity to each player while they move around the court. Multi-object tracking methods such as ByteTrack can be combined with object detectors to maintain player trajectories. In badminton analysis, tracking is commonly used to follow the two players during a rally. The resulting trajectory can contain the player's position over time. This information"
+        },
+        {
+          "chunk_id": "badminton_05_player_detection.txt_1",
+          "document_id": "badminton_05_player_detection.txt",
+          "distance": 0.41670680046081543,
+          "text": "The resulting bounding boxes can provide the approximate position and size of each player. Player detection is an important first step for movement analysis because later tracking systems need detections from consecutive frames. The detected player regions can also be used as input for pose estimation. A badminton-specific detection system may need to distinguish the two players on the court from spectators, officials, or people outside the playing area. Camera angle and occlusion can make this more difficult in broadcast"
+        }
+      ],
+      "document_precision": 0.3333333333333333,
+      "document_recall": 0.5,
+      "context_precision": 0.8333333333333333,
+      "context_recall": 0.5,
+      "context_chunk_judgments": [
+        {
+          "rank": 1,
+          "chunk_id": "badminton_13_video_analysis_pipeline.txt_0",
+          "document_id": "badminton_13_video_analysis_pipeline.txt",
+          "relevant": 1,
+          "reason": "Mentions that player detection can detect players in video frames as part of the pipeline."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "badminton_06_player_tracking.txt_0",
+          "document_id": "badminton_06_player_tracking.txt",
+          "relevant": 0,
+          "reason": "Discusses player tracking across frames and tracking algorithms, but does not explain how players are initially identified in each frame or mention object detectors like YOLO."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "badminton_05_player_detection.txt_1",
+          "document_id": "badminton_05_player_detection.txt",
+          "relevant": 1,
+          "reason": "Explains that player detection provides bounding boxes indicating the approximate position and size of each player."
+        }
+      ],
+      "context_recall_claims": [
+        {
+          "claim": "An object detector such as YOLO can identify the player in individual frames",
+          "supported": 0,
+          "reason": "The retrieved chunks mention player detection in general and tracking algorithms, but they do not specifically mention the YOLO model."
+        },
+        {
+          "claim": "and represent the player's location using a bounding box.",
+          "supported": 1,
+          "reason": "Chunk 3 explicitly states that the resulting bounding boxes can provide the approximate position and size of each player."
+        }
+      ],
       "faithfulness": 1,
-      "correctness": 1
+      "correctness": 1,
+      "ragas_style_composite": 0.8333333333333333
     },
     {
       "id": "q06",
       "type": "comparative",
       "question": "How does YOLO differ from TrackNetV3 in a badminton video-analysis pipeline?",
       "expected_answer": "YOLO is a general object-detection approach that can detect players and other objects in individual frames, whereas TrackNetV3 is specialized for detecting and tracking the small, fast-moving badminton shuttlecock across video frames.",
-      "generated_answer": "Based on the provided context, YOLO differs from TrackNetV3 in the following ways:\n\n* **TrackNetV3** is specialized for detecting and tracking the shuttlecock (and should not be confused with a general player detector), whereas **YOLO** is a general object-detection approach that can detect objects such as players.\n* In a badminton analysis pipeline, **YOLO** serves as a general player detector (handling player detection), while **TrackNetV3** is used specifically for shuttlecock tracking.",
+      "generated_answer": "YOLO differs from TrackNetV3 in the following ways:\n\n* **Role and specialization:** YOLO is a general object-detection approach (or general player detector) used for tasks such as player detection. In contrast, TrackNetV3 is specialized for the shuttlecock and is designed around tracking small, fast-moving sports objects rather than players. \n* **Complementary roles:** Because of these differences, YOLO and TrackNetV3 perform complementary roles in a complete badminton analysis pipeline (with YOLO handling player detection and TrackNetV3 handling shuttlecock detection and tracking).",
       "relevant_sources": [
         "badminton_16_yolo.txt",
         "badminton_17_tracknetv3.txt"
@@ -176,17 +485,75 @@
         "badminton_16_yolo.txt",
         "badminton_04_tracknet.txt"
       ],
-      "retrieval_precision": 0.6666666666666666,
-      "retrieval_recall": 1.0,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "badminton_17_tracknetv3.txt_2",
+          "document_id": "badminton_17_tracknetv3.txt",
+          "distance": 0.37839657068252563,
+          "text": "positions, and analyzing shuttle movement. TrackNetV3 is specialized for the shuttlecock and should not be confused with a general player detector such as YOLO. In a complete badminton analysis pipeline, TrackNetV3 and YOLO can therefore perform complementary roles. Reported results on the Shuttlecock Trajectory Dataset show substantially higher tracking performance for TrackNetV3 than earlier TrackNet versions and the YOLOv7 baseline."
+        },
+        {
+          "chunk_id": "badminton_16_yolo.txt_1",
+          "document_id": "badminton_16_yolo.txt",
+          "distance": 0.43584752082824707,
+          "text": "using a bounding box, which provides its approximate location in the frame. Badminton computer-vision projects can combine YOLO with other specialized models. For example, a system may use YOLO for player detection while using TrackNetV3 specifically for shuttlecock tracking. YOLO is therefore different from TrackNet. YOLO is a general object-detection approach that can detect objects such as players, while TrackNet is designed around the problem of tracking small and fast-moving sports objects such as a badminton shuttlecock. YOLO detections can"
+        },
+        {
+          "chunk_id": "badminton_04_tracknet.txt_2",
+          "document_id": "badminton_04_tracknet.txt",
+          "distance": 0.5963175296783447,
+          "text": "TrackNetV3 are used in badminton analysis pipelines for shuttle detection and tracking. TrackNet is primarily concerned with the shuttlecock rather than the players. Player detection, player tracking, pose estimation, and court analysis are separate components that can be combined with TrackNet in a larger badminton video-analysis system. Limitations: Comment by Arvind KG (Worked on TrackNet) TrackNet can struggle with occlusions and very small or blurred objects, since earlier versions rely heavily on visual cues. It can also face challenges with"
+        }
+      ],
+      "document_precision": 0.6666666666666666,
+      "document_recall": 1.0,
+      "context_precision": 1.0,
+      "context_recall": 1.0,
+      "context_chunk_judgments": [
+        {
+          "rank": 1,
+          "chunk_id": "badminton_17_tracknetv3.txt_2",
+          "document_id": "badminton_17_tracknetv3.txt",
+          "relevant": 1,
+          "reason": "Provides information distinguishing TrackNetV3 as specialized for the shuttlecock from general player detectors like YOLO."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "badminton_16_yolo.txt_1",
+          "document_id": "badminton_16_yolo.txt",
+          "relevant": 1,
+          "reason": "Explains that YOLO is a general object-detection approach for players, whereas TrackNet is designed for small, fast-moving sports objects like the shuttlecock."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "badminton_04_tracknet.txt_2",
+          "document_id": "badminton_04_tracknet.txt",
+          "relevant": 1,
+          "reason": "Discusses how TrackNetV3 is used for shuttle detection and tracking, noting it is concerned with the shuttlecock rather than players."
+        }
+      ],
+      "context_recall_claims": [
+        {
+          "claim": "YOLO is a general object-detection approach that can detect players and other objects in individual frames",
+          "supported": 1,
+          "reason": "Chunk 2 explicitly states that YOLO is a general object-detection approach that can detect objects such as players."
+        },
+        {
+          "claim": "TrackNetV3 is specialized for detecting and tracking the small, fast-moving badminton shuttlecock across video frames",
+          "supported": 1,
+          "reason": "Chunks 1 and 2 state that TrackNetV3 is specialized for the shuttlecock and designed around tracking small and fast-moving sports objects."
+        }
+      ],
       "faithfulness": 1,
-      "correctness": 1
+      "correctness": 1,
+      "ragas_style_composite": 1.0
     },
     {
       "id": "q07",
       "type": "multi_hop",
       "question": "How can shuttlecock tracking information contribute to identifying the moment when a player strikes the shuttlecock?",
       "expected_answer": "Shuttlecock tracking provides the shuttle's movement and position across frames, which can be combined with player position, pose, and changes in shuttle movement to help identify the moment of a hit.",
-      "generated_answer": "Based on the provided context, I don't have enough information in the provided context to answer how shuttlecock tracking information contributes to identifying the moment when a player strikes the shuttlecock.",
+      "generated_answer": "Reliable hit detection can support rally segmentation, shot classification, trajectory analysis, and automated match statistics. Additionally, reliable trajectory information can serve as an intermediate representation for higher-level badminton analytics, and trajectory information can provide useful information for detecting events such as hits.",
       "relevant_sources": [
         "badminton_03_shuttle_tracking.txt",
         "badminton_08_hit_detection.txt"
@@ -196,17 +563,80 @@
         "badminton_11_trajectory_analysis.txt",
         "badminton_11_trajectory_analysis.txt"
       ],
-      "retrieval_precision": 0.3333333333333333,
-      "retrieval_recall": 0.5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "badminton_08_hit_detection.txt_2",
+          "document_id": "badminton_08_hit_detection.txt",
+          "distance": 0.5308672785758972,
+          "text": "frames, while hit detection identifies an important event involving the player and shuttlecock. Reliable hit detection can support rally segmentation, shot classification, trajectory analysis, and automated match statistics."
+        },
+        {
+          "chunk_id": "badminton_11_trajectory_analysis.txt_2",
+          "document_id": "badminton_11_trajectory_analysis.txt",
+          "distance": 0.5660130977630615,
+          "text": "but different task. Tracking estimates where the shuttlecock is or was, while trajectory prediction attempts to estimate where it will move in future frames. Reliable trajectory information can therefore serve as an intermediate representation for higher-level badminton analytics."
+        },
+        {
+          "chunk_id": "badminton_11_trajectory_analysis.txt_1",
+          "document_id": "badminton_11_trajectory_analysis.txt",
+          "distance": 0.5925417542457581,
+          "text": "Trajectory information can be used to identify movement patterns, estimate landing positions, and analyze changes in shuttle direction. It can also provide useful information for detecting events such as hits. Some badminton computer-vision systems focus specifically on trajectory reconstruction from broadcast video. These systems may combine shuttle tracking with court detection and player pose information. Trajectory prediction is a related but different task. Tracking estimates where the shuttlecock is or was, while trajectory prediction attempts to estimate where it will"
+        }
+      ],
+      "document_precision": 0.3333333333333333,
+      "document_recall": 0.5,
+      "context_precision": 0.3333333333333333,
+      "context_recall": 1.0,
+      "context_chunk_judgments": [
+        {
+          "rank": 1,
+          "chunk_id": "badminton_08_hit_detection.txt_2",
+          "document_id": "badminton_08_hit_detection.txt",
+          "relevant": 0,
+          "reason": "Discusses hit detection and its applications, but does not explain how shuttlecock tracking contributes to identifying hits."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "badminton_11_trajectory_analysis.txt_2",
+          "document_id": "badminton_11_trajectory_analysis.txt",
+          "relevant": 0,
+          "reason": "Discusses tracking and trajectory prediction, but does not explain how tracking contributes to identifying hits."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "badminton_11_trajectory_analysis.txt_1",
+          "document_id": "badminton_11_trajectory_analysis.txt",
+          "relevant": 1,
+          "reason": "States that trajectory information can detect events such as hits, and that systems may combine shuttle tracking with player pose and court detection."
+        }
+      ],
+      "context_recall_claims": [
+        {
+          "claim": "Shuttlecock tracking provides the shuttle's movement and position across frames.",
+          "supported": 1,
+          "reason": "Chunk 2 states that tracking estimates where the shuttlecock is or was."
+        },
+        {
+          "claim": "Shuttlecock tracking can be combined with player position, pose, and changes in shuttle movement.",
+          "supported": 1,
+          "reason": "Chunk 3 mentions combining shuttle tracking with player pose and court detection, and Chunk 1/3 discuss changes in shuttle movement/trajectory."
+        },
+        {
+          "claim": "Combining these factors helps identify the moment of a hit.",
+          "supported": 1,
+          "reason": "Chunk 3 explicitly states that trajectory information can provide useful information for detecting events such as hits."
+        }
+      ],
       "faithfulness": 1,
-      "correctness": 0
+      "correctness": 0,
+      "ragas_style_composite": 0.5833333333333333
     },
     {
       "id": "q08",
       "type": "multi_hop",
       "question": "Why would a badminton system use an object detector together with court calibration when measuring player movement across the playing area?",
       "expected_answer": "An object detector such as YOLO can locate the player, while court calibration or homography converts image-space positions into meaningful court coordinates that can be used to measure movement and court coverage.",
-      "generated_answer": "I don't have enough information in the provided context.",
+      "generated_answer": "I don't have enough information in the provided context to answer why a badminton system would use court calibration. (The context mentions player detection and court analysis as separate stages, and states that player detection/tracking/court analysis can be part of a complete pipeline, but it does not mention \"court calibration\" or why an object detector is used *together* with it.)",
       "relevant_sources": [
         "badminton_16_yolo.txt",
         "badminton_10_court_analysis.txt"
@@ -216,17 +646,75 @@
         "badminton_01_overview.txt",
         "badminton_07_pose_estimation.txt"
       ],
-      "retrieval_precision": 0.0,
-      "retrieval_recall": 0.0,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "badminton_05_player_detection.txt_1",
+          "document_id": "badminton_05_player_detection.txt",
+          "distance": 0.5077555179595947,
+          "text": "The resulting bounding boxes can provide the approximate position and size of each player. Player detection is an important first step for movement analysis because later tracking systems need detections from consecutive frames. The detected player regions can also be used as input for pose estimation. A badminton-specific detection system may need to distinguish the two players on the court from spectators, officials, or people outside the playing area. Camera angle and occlusion can make this more difficult in broadcast"
+        },
+        {
+          "chunk_id": "badminton_01_overview.txt_2",
+          "document_id": "badminton_01_overview.txt",
+          "distance": 0.5456191301345825,
+          "text": "additionally provide body-joint information for analyzing player movement. The extracted information can then be used for higher-level analysis. Examples include detecting when a player hits the shuttlecock, identifying rally events, estimating shuttle trajectories, measuring player movement, and analyzing court positioning. A complete badminton analysis pipeline may therefore contain shuttle detection, player detection, tracking, pose estimation, event detection, and court analysis as separate stages."
+        },
+        {
+          "chunk_id": "badminton_07_pose_estimation.txt_1",
+          "document_id": "badminton_07_pose_estimation.txt",
+          "distance": 0.5532435774803162,
+          "text": "analysis system can estimate the player's body configuration and movement. Pose estimation can be used to study footwork, body position, racket-related movements, and player actions. It can also provide features for shot classification and performance analysis. Modern badminton computer-vision projects commonly combine player detection with pose estimation. YOLO-based pose models or other pose-estimation frameworks can generate keypoints for players detected in match footage. Pose estimation is different from player tracking. Tracking identifies the same player across time, while pose estimation"
+        }
+      ],
+      "document_precision": 0.0,
+      "document_recall": 0.0,
+      "context_precision": 1.0,
+      "context_recall": 0.5,
+      "context_chunk_judgments": [
+        {
+          "rank": 1,
+          "chunk_id": "badminton_05_player_detection.txt_1",
+          "document_id": "badminton_05_player_detection.txt",
+          "relevant": 1,
+          "reason": "The chunk discusses player detection (using bounding boxes) providing the approximate position of each player for movement analysis."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "badminton_01_overview.txt_2",
+          "document_id": "badminton_01_overview.txt",
+          "relevant": 0,
+          "reason": "The chunk mentions measuring player movement and analyzing court positioning as part of a pipeline, but does not explain why an object detector and court calibration are used together for this purpose."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "badminton_07_pose_estimation.txt_1",
+          "document_id": "badminton_07_pose_estimation.txt",
+          "relevant": 0,
+          "reason": "The chunk discusses pose estimation and YOLO-based pose models, but does not mention court calibration or homography converting image-space positions to court coordinates."
+        }
+      ],
+      "context_recall_claims": [
+        {
+          "claim": "An object detector such as YOLO can locate the player.",
+          "supported": 1,
+          "reason": "Chunk 1 mentions that bounding boxes from player detection provide the position of players, and Chunk 3 mentions YOLO-based models detecting players."
+        },
+        {
+          "claim": "Court calibration or homography converts image-space positions into meaningful court coordinates that can be used to measure movement and court coverage.",
+          "supported": 0,
+          "reason": "None of the retrieved chunks mention court calibration or homography converting image-space positions into court coordinates."
+        }
+      ],
       "faithfulness": 1,
-      "correctness": 0
+      "correctness": 0,
+      "ragas_style_composite": 0.625
     },
     {
       "id": "q09",
       "type": "multi_hop",
       "question": "How can information about a player's body posture be combined with shuttlecock information to determine what type of badminton shot was played?",
       "expected_answer": "Pose estimation provides information about the player's body configuration, while shuttlecock features describe its position and movement; these features can be combined as inputs for shot classification.",
-      "generated_answer": "I don't have enough information in the provided context.",
+      "generated_answer": "Computer-vision systems can use information about player pose (which describes how the player's body is positioned) and shuttlecock movement (which provides information about the shuttle's location and movement) as features for shot classification to identify the type of badminton shot performed.",
       "relevant_sources": [
         "badminton_07_pose_estimation.txt",
         "badminton_14_shot_classification.txt"
@@ -236,17 +724,80 @@
         "badminton_01_overview.txt",
         "badminton_07_pose_estimation.txt"
       ],
-      "retrieval_precision": 0.6666666666666666,
-      "retrieval_recall": 1.0,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "badminton_14_shot_classification.txt_0",
+          "document_id": "badminton_14_shot_classification.txt",
+          "distance": 0.41570186614990234,
+          "text": "Badminton Shot Classification Shot classification attempts to identify the type of badminton shot performed during a hit. Examples of badminton shot categories can include different attacking, defensive, and placement-oriented strokes. Computer-vision systems can use information about player pose and shuttlecock movement as features for shot classification. A pose representation describes how the player's body is positioned, while shuttle features provide information about the shuttle's location and movement. Shot classification is generally performed after or alongside hit detection because the system"
+        },
+        {
+          "chunk_id": "badminton_01_overview.txt_2",
+          "document_id": "badminton_01_overview.txt",
+          "distance": 0.5058103799819946,
+          "text": "additionally provide body-joint information for analyzing player movement. The extracted information can then be used for higher-level analysis. Examples include detecting when a player hits the shuttlecock, identifying rally events, estimating shuttle trajectories, measuring player movement, and analyzing court positioning. A complete badminton analysis pipeline may therefore contain shuttle detection, player detection, tracking, pose estimation, event detection, and court analysis as separate stages."
+        },
+        {
+          "chunk_id": "badminton_07_pose_estimation.txt_0",
+          "document_id": "badminton_07_pose_estimation.txt",
+          "distance": 0.5199094414710999,
+          "text": "Badminton Pose Estimation Pose estimation identifies key body joints of a player from video frames. A pose model can estimate points such as the shoulders, elbows, wrists, hips, knees, and ankles and connect them into a human skeleton. Pose information provides more detail than a simple player bounding box. Instead of knowing only where the player is located, a badminton analysis system can estimate the player's body configuration and movement. Pose estimation can be used to study footwork, body position,"
+        }
+      ],
+      "document_precision": 0.6666666666666666,
+      "document_recall": 1.0,
+      "context_precision": 1.0,
+      "context_recall": 1.0,
+      "context_chunk_judgments": [
+        {
+          "rank": 1,
+          "chunk_id": "badminton_14_shot_classification.txt_0",
+          "document_id": "badminton_14_shot_classification.txt",
+          "relevant": 1,
+          "reason": "Explicitly states that computer-vision systems can use player pose and shuttlecock movement as features for shot classification, and defines pose representation and shuttle features."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "badminton_01_overview.txt_2",
+          "document_id": "badminton_01_overview.txt",
+          "relevant": 0,
+          "reason": "Discusses body-joint information and analysis pipeline stages generally, but does not explain how body posture and shuttlecock information are combined for shot classification."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "badminton_07_pose_estimation.txt_0",
+          "document_id": "badminton_07_pose_estimation.txt",
+          "relevant": 0,
+          "reason": "Describes pose estimation and body joints, but does not mention shuttlecock information or shot classification."
+        }
+      ],
+      "context_recall_claims": [
+        {
+          "claim": "Pose estimation provides information about the player's body configuration.",
+          "supported": 1,
+          "reason": "Chunk 1 states that 'A pose representation describes how the player's body is positioned'."
+        },
+        {
+          "claim": "Shuttlecock features describe its position and movement.",
+          "supported": 1,
+          "reason": "Chunk 1 states that 'shuttle features provide information about the shuttle's location and movement'."
+        },
+        {
+          "claim": "These features can be combined as inputs for shot classification.",
+          "supported": 1,
+          "reason": "Chunk 1 states that 'Computer-vision systems can use information about player pose and shuttlecock movement as features for shot classification'."
+        }
+      ],
       "faithfulness": 1,
-      "correctness": 0
+      "correctness": 1,
+      "ragas_style_composite": 1.0
     },
     {
       "id": "q10",
       "type": "multi_hop",
       "question": "How can detecting individual hit events help a system move from low-level video analysis to higher-level rally and performance analysis?",
       "expected_answer": "Hit detection identifies important events within a video, which helps organize gameplay into rallies and provides event information that can be combined with player movement and other measurements for higher-level performance analytics.",
-      "generated_answer": "Based on the provided context, reliable hit detection can support rally segmentation, shot classification, trajectory analysis, and automated match statistics.",
+      "generated_answer": "Reliable hit detection supports higher-level performance and rally analysis by enabling:\n* Rally segmentation\n* Shot classification\n* Trajectory analysis\n* Automated match statistics",
       "relevant_sources": [
         "badminton_08_hit_detection.txt",
         "badminton_09_rally_analysis.txt",
@@ -257,17 +808,80 @@
         "badminton_14_shot_classification.txt",
         "badminton_08_hit_detection.txt"
       ],
-      "retrieval_precision": 0.6666666666666666,
-      "retrieval_recall": 0.3333333333333333,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "badminton_08_hit_detection.txt_2",
+          "document_id": "badminton_08_hit_detection.txt",
+          "distance": 0.6637052893638611,
+          "text": "frames, while hit detection identifies an important event involving the player and shuttlecock. Reliable hit detection can support rally segmentation, shot classification, trajectory analysis, and automated match statistics."
+        },
+        {
+          "chunk_id": "badminton_14_shot_classification.txt_1",
+          "document_id": "badminton_14_shot_classification.txt",
+          "distance": 0.8637673258781433,
+          "text": "information about the shuttle's location and movement. Shot classification is generally performed after or alongside hit detection because the system first needs to identify the relevant moment in the video. A sequence of frames around the hit can then be analyzed to determine the shot type. Machine-learning models can be trained using annotated badminton clips where each hit has an associated shot label. Shot classification differs from hit detection. Hit detection answers the question of when a player hits the"
+        },
+        {
+          "chunk_id": "badminton_08_hit_detection.txt_1",
+          "document_id": "badminton_08_hit_detection.txt",
+          "distance": 0.8758973479270935,
+          "text": "can be recorded as a temporal event. Open-source badminton research projects have created annotations containing hit frames, player information, shuttlecock coordinates, and related video features. These annotations can be used to train or evaluate models for automatic hit detection. Hit detection is closely related to shuttlecock tracking but represents a different task. Tracking attempts to estimate the shuttlecock position across frames, while hit detection identifies an important event involving the player and shuttlecock. Reliable hit detection can support rally segmentation,"
+        }
+      ],
+      "document_precision": 0.6666666666666666,
+      "document_recall": 0.3333333333333333,
+      "context_precision": 0.8333333333333333,
+      "context_recall": 0.6666666666666666,
+      "context_chunk_judgments": [
+        {
+          "rank": 1,
+          "chunk_id": "badminton_08_hit_detection.txt_2",
+          "document_id": "badminton_08_hit_detection.txt",
+          "relevant": 1,
+          "reason": "Provides information on how hit detection identifies important events and supports rally segmentation and match statistics."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "badminton_14_shot_classification.txt_1",
+          "document_id": "badminton_14_shot_classification.txt",
+          "relevant": 0,
+          "reason": "Discusses shot classification and machine-learning models rather than moving from low-level video analysis to higher-level rally and performance analysis."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "badminton_08_hit_detection.txt_1",
+          "document_id": "badminton_08_hit_detection.txt",
+          "relevant": 1,
+          "reason": "Supports the claim that hit detection identifies important events and can support rally segmentation."
+        }
+      ],
+      "context_recall_claims": [
+        {
+          "claim": "Hit detection identifies important events within a video",
+          "supported": 1,
+          "reason": "Chunk 1 and Chunk 3 explicitly state that hit detection identifies an important event involving the player and shuttlecock."
+        },
+        {
+          "claim": "Hit detection helps organize gameplay into rallies",
+          "supported": 1,
+          "reason": "Chunk 1 and Chunk 3 explicitly state that reliable hit detection can support rally segmentation."
+        },
+        {
+          "claim": "Hit detection provides event information that can be combined with player movement and other measurements for higher-level performance analytics",
+          "supported": 0,
+          "reason": "The retrieved chunks mention hit detection supporting rally segmentation, shot classification, trajectory analysis, and automated match statistics, but do not explicitly mention combining event information with player movement and other measurements for performance analytics."
+        }
+      ],
       "faithfulness": 1,
-      "correctness": 1
+      "correctness": 1,
+      "ragas_style_composite": 0.875
     },
     {
       "id": "q11",
       "type": "conditional",
       "question": "If a system can detect players accurately in individual frames but cannot maintain consistent player identities as they move, what capability is missing?",
       "expected_answer": "Player tracking is missing. Detection identifies players in individual frames, while tracking associates detections across frames and maintains a consistent identity over time.",
-      "generated_answer": "Based on the provided context, the missing capability is **player tracking** (or tracking), which associates detections across frames so that the movement of each player can be followed over time and identifies the same player across time.",
+      "generated_answer": "Based on the provided context, the missing capability is **player tracking**. \n\nWhile player detection determines where players appear in individual frames, tracking is the capability required to associate detections across frames so that the movement and identity of each player can be followed over time.",
       "relevant_sources": [
         "badminton_05_player_detection.txt",
         "badminton_06_player_tracking.txt"
@@ -277,17 +891,80 @@
         "badminton_05_player_detection.txt",
         "badminton_07_pose_estimation.txt"
       ],
-      "retrieval_precision": 0.6666666666666666,
-      "retrieval_recall": 0.5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "badminton_05_player_detection.txt_2",
+          "document_id": "badminton_05_player_detection.txt",
+          "distance": 0.8574692010879517,
+          "text": "from spectators, officials, or people outside the playing area. Camera angle and occlusion can make this more difficult in broadcast footage. Player detection should be distinguished from player tracking. Detection determines where players appear in individual frames, while tracking associates detections across frames so that the movement of each player can be followed over time."
+        },
+        {
+          "chunk_id": "badminton_05_player_detection.txt_1",
+          "document_id": "badminton_05_player_detection.txt",
+          "distance": 0.9833749532699585,
+          "text": "The resulting bounding boxes can provide the approximate position and size of each player. Player detection is an important first step for movement analysis because later tracking systems need detections from consecutive frames. The detected player regions can also be used as input for pose estimation. A badminton-specific detection system may need to distinguish the two players on the court from spectators, officials, or people outside the playing area. Camera angle and occlusion can make this more difficult in broadcast"
+        },
+        {
+          "chunk_id": "badminton_07_pose_estimation.txt_2",
+          "document_id": "badminton_07_pose_estimation.txt",
+          "distance": 0.9900404214859009,
+          "text": "in match footage. Pose estimation is different from player tracking. Tracking identifies the same player across time, while pose estimation describes the player's body configuration within an individual frame. The two techniques can be combined to analyze how a player's movement and posture change throughout a rally."
+        }
+      ],
+      "document_precision": 0.6666666666666666,
+      "document_recall": 0.5,
+      "context_precision": 1.0,
+      "context_recall": 1.0,
+      "context_chunk_judgments": [
+        {
+          "rank": 1,
+          "chunk_id": "badminton_05_player_detection.txt_2",
+          "document_id": "badminton_05_player_detection.txt",
+          "relevant": 1,
+          "reason": "Explicitly distinguishes player detection from player tracking, stating that tracking associates detections across frames so movement can be followed."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "badminton_05_player_detection.txt_1",
+          "document_id": "badminton_05_player_detection.txt",
+          "relevant": 1,
+          "reason": "Mentions that detection determines positions in individual frames and provides context that tracking uses detections from consecutive frames."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "badminton_07_pose_estimation.txt_2",
+          "document_id": "badminton_07_pose_estimation.txt",
+          "relevant": 1,
+          "reason": "Defines tracking as identifying the same player across time."
+        }
+      ],
+      "context_recall_claims": [
+        {
+          "claim": "Player tracking is missing.",
+          "supported": 1,
+          "reason": "Chunk 1 explicitly states that tracking associates detections across frames to follow movement over time when a system detects players in individual frames."
+        },
+        {
+          "claim": "Detection identifies players in individual frames.",
+          "supported": 1,
+          "reason": "Chunk 1 and Chunk 2 state that detection determines where players appear in individual frames."
+        },
+        {
+          "claim": "Tracking associates detections across frames and maintains a consistent identity over time.",
+          "supported": 1,
+          "reason": "Chunk 1 states that tracking associates detections across frames to follow movement over time, and Chunk 3 states tracking identifies the same player across time."
+        }
+      ],
       "faithfulness": 1,
-      "correctness": 1
+      "correctness": 1,
+      "ragas_style_composite": 1.0
     },
     {
       "id": "q12",
       "type": "conditional",
       "question": "If a badminton system can locate the shuttlecock in individual frames but cannot reconstruct its movement across time, which capability is missing and what downstream analysis would be affected?",
       "expected_answer": "Shuttlecock tracking is missing. Without reliable tracking, continuous shuttle trajectories become difficult to reconstruct, which can affect trajectory analysis and event detection such as identifying hits.",
-      "generated_answer": "Based on the provided context, tracking is the missing capability (since tracking estimates where the shuttlecock is or was, and the system cannot reconstruct its movement across time/consecutive frames). \n\nThe downstream analysis affected includes:\n* Downstream tracking and event-analysis components (such as determining events like hits or landing positions, and trajectory prediction for higher-level badminton analytics).",
+      "generated_answer": "Based on the provided context, the missing capability is **tracking** (which estimates where the shuttlecock is or was across consecutive frames/time). \n\nThe downstream analysis affected includes:\n* **Trajectory prediction** (attempting to estimate where the shuttlecock will move in future frames).\n* **Higher-level badminton analytics** (as reliable trajectory information serves as an intermediate representation for these).\n* **Downstream event-analysis components**, such as determining events like **hits or landing positions**. Missing the shuttlecock in several frames creates gaps in its trajectory, making these events harder to determine.",
       "relevant_sources": [
         "badminton_02_shuttle_detection.txt",
         "badminton_03_shuttle_tracking.txt",
@@ -298,17 +975,80 @@
         "badminton_11_trajectory_analysis.txt",
         "badminton_02_shuttle_detection.txt"
       ],
-      "retrieval_precision": 1.0,
-      "retrieval_recall": 0.6666666666666666,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "badminton_02_shuttle_detection.txt_2",
+          "document_id": "badminton_02_shuttle_detection.txt",
+          "distance": 0.5958034992218018,
+          "text": "reason, badminton-specific approaches such as TrackNet were developed to detect and track the shuttlecock using information from consecutive frames. Reliable shuttlecock detection is important because errors at this stage can affect later stages of the pipeline. Missing the shuttlecock in several frames can create gaps in its trajectory and make it harder to determine events such as hits or landing positions. In a complete badminton video-analysis system, shuttlecock detection is therefore an early stage that provides visual information required by"
+        },
+        {
+          "chunk_id": "badminton_11_trajectory_analysis.txt_2",
+          "document_id": "badminton_11_trajectory_analysis.txt",
+          "distance": 0.6060678958892822,
+          "text": "but different task. Tracking estimates where the shuttlecock is or was, while trajectory prediction attempts to estimate where it will move in future frames. Reliable trajectory information can therefore serve as an intermediate representation for higher-level badminton analytics."
+        },
+        {
+          "chunk_id": "badminton_02_shuttle_detection.txt_3",
+          "document_id": "badminton_02_shuttle_detection.txt",
+          "distance": 0.6084744334220886,
+          "text": "positions. In a complete badminton video-analysis system, shuttlecock detection is therefore an early stage that provides visual information required by downstream tracking and event-analysis components."
+        }
+      ],
+      "document_precision": 1.0,
+      "document_recall": 0.6666666666666666,
+      "context_precision": 0.8333333333333333,
+      "context_recall": 1.0,
+      "context_chunk_judgments": [
+        {
+          "rank": 1,
+          "chunk_id": "badminton_02_shuttle_detection.txt_2",
+          "document_id": "badminton_02_shuttle_detection.txt",
+          "relevant": 1,
+          "reason": "The chunk explains that detection errors or missing detections across frames create gaps in trajectory and affect downstream events such as hits."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "badminton_11_trajectory_analysis.txt_2",
+          "document_id": "badminton_11_trajectory_analysis.txt",
+          "relevant": 0,
+          "reason": "The chunk discusses trajectory prediction versus tracking, which does not directly address the missing capability and affected downstream analysis mentioned in the reference answer."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "badminton_02_shuttle_detection.txt_3",
+          "document_id": "badminton_02_shuttle_detection.txt",
+          "relevant": 1,
+          "reason": "The chunk notes that shuttlecock detection provides visual information required by downstream tracking and event-analysis components."
+        }
+      ],
+      "context_recall_claims": [
+        {
+          "claim": "Shuttlecock tracking is missing.",
+          "supported": 1,
+          "reason": "Chunk 3 refers to 'downstream tracking' components relying on detection, and Chunk 1 mentions tracking using information from consecutive frames."
+        },
+        {
+          "claim": "Without reliable tracking, continuous shuttle trajectories become difficult to reconstruct.",
+          "supported": 1,
+          "reason": "Chunk 1 explicitly states that missing the shuttlecock in several frames creates gaps in its trajectory."
+        },
+        {
+          "claim": "This affects trajectory analysis and event detection such as identifying hits.",
+          "supported": 1,
+          "reason": "Chunk 1 explicitly states that errors make it harder to determine events such as hits, and Chunk 3 mentions event-analysis components."
+        }
+      ],
       "faithfulness": 1,
-      "correctness": 1
+      "correctness": 1,
+      "ragas_style_composite": 0.9583333333333333
     },
     {
       "id": "q13",
       "type": "comparative",
       "question": "What is the difference between hit detection and shot classification, and why would a badminton analysis system typically need both?",
       "expected_answer": "Hit detection identifies when a player strikes the shuttlecock, while shot classification determines what type of shot was performed. Both are useful because identifying the event provides the relevant moment for classifying the resulting shot.",
-      "generated_answer": "Based on the provided context, hit detection answers the question of when a player hits the shuttlecock, whereas shot classification attempts to determine what type of shot was performed (identifying the type of badminton shot performed during a hit). \n\nA badminton analysis system typically needs both because shot classification is generally performed after or alongside hit detection, as the system first needs to identify the relevant moment in the video (using hit detection) before a sequence of frames around the hit can be analyzed to determine the shot type (shot classification).",
+      "generated_answer": "**Difference:**\n* **Hit detection** answers the question of when a player hits the shuttlecock (identifying the relevant moment in the video).\n* **Shot classification** attempts to determine what type of shot (such as attacking, defensive, or placement-oriented strokes) was performed.\n\n**Why a system typically needs both:**\nShot classification is generally performed after or alongside hit detection because the system first needs to identify the relevant moment in the video (via hit detection) so that a sequence of frames around the hit can then be analyzed to determine the shot type.",
       "relevant_sources": [
         "badminton_08_hit_detection.txt",
         "badminton_14_shot_classification.txt"
@@ -318,17 +1058,80 @@
         "badminton_14_shot_classification.txt",
         "badminton_14_shot_classification.txt"
       ],
-      "retrieval_precision": 1.0,
-      "retrieval_recall": 0.5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "badminton_14_shot_classification.txt_2",
+          "document_id": "badminton_14_shot_classification.txt",
+          "distance": 0.4330693185329437,
+          "text": "associated shot label. Shot classification differs from hit detection. Hit detection answers the question of when a player hits the shuttlecock, while shot classification attempts to determine what type of shot was performed. Accurate shot classification can support player statistics, rally analysis, coaching applications, and tactical analysis."
+        },
+        {
+          "chunk_id": "badminton_14_shot_classification.txt_0",
+          "document_id": "badminton_14_shot_classification.txt",
+          "distance": 0.44492262601852417,
+          "text": "Badminton Shot Classification Shot classification attempts to identify the type of badminton shot performed during a hit. Examples of badminton shot categories can include different attacking, defensive, and placement-oriented strokes. Computer-vision systems can use information about player pose and shuttlecock movement as features for shot classification. A pose representation describes how the player's body is positioned, while shuttle features provide information about the shuttle's location and movement. Shot classification is generally performed after or alongside hit detection because the system"
+        },
+        {
+          "chunk_id": "badminton_14_shot_classification.txt_1",
+          "document_id": "badminton_14_shot_classification.txt",
+          "distance": 0.45885372161865234,
+          "text": "information about the shuttle's location and movement. Shot classification is generally performed after or alongside hit detection because the system first needs to identify the relevant moment in the video. A sequence of frames around the hit can then be analyzed to determine the shot type. Machine-learning models can be trained using annotated badminton clips where each hit has an associated shot label. Shot classification differs from hit detection. Hit detection answers the question of when a player hits the"
+        }
+      ],
+      "document_precision": 1.0,
+      "document_recall": 0.5,
+      "context_precision": 1.0,
+      "context_recall": 1.0,
+      "context_chunk_judgments": [
+        {
+          "rank": 1,
+          "chunk_id": "badminton_14_shot_classification.txt_2",
+          "document_id": "badminton_14_shot_classification.txt",
+          "relevant": 1,
+          "reason": "Explains the difference between hit detection (when a player hits the shuttlecock) and shot classification (what type of shot was performed)."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "badminton_14_shot_classification.txt_0",
+          "document_id": "badminton_14_shot_classification.txt",
+          "relevant": 1,
+          "reason": "Mentions that shot classification is generally performed after or alongside hit detection."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "badminton_14_shot_classification.txt_1",
+          "document_id": "badminton_14_shot_classification.txt",
+          "relevant": 1,
+          "reason": "Explains that the system first needs to identify the relevant moment (hit detection) to analyze the sequence of frames and determine the shot type (shot classification)."
+        }
+      ],
+      "context_recall_claims": [
+        {
+          "claim": "Hit detection identifies when a player strikes the shuttlecock",
+          "supported": 1,
+          "reason": "Explicitly stated in Chunks 1 and 3 ('Hit detection answers the question of when a player hits the shuttlecock')."
+        },
+        {
+          "claim": "Shot classification determines what type of shot was performed",
+          "supported": 1,
+          "reason": "Explicitly stated in Chunks 1, 2, and 3 ('shot classification attempts to determine what type of shot was performed')."
+        },
+        {
+          "claim": "Identifying the event (hit detection) provides the relevant moment for classifying the resulting shot (shot classification)",
+          "supported": 1,
+          "reason": "Explicitly stated in Chunk 3 ('the system first needs to identify the relevant moment in the video. A sequence of frames around the hit can then be analyzed to determine the shot type')."
+        }
+      ],
       "faithfulness": 1,
-      "correctness": 1
+      "correctness": 1,
+      "ragas_style_composite": 1.0
     },
     {
       "id": "q14",
       "type": "abstract",
       "question": "Why is badminton video analysis better understood as a pipeline of specialized computer-vision components rather than a single prediction task?",
       "expected_answer": "Different stages solve different problems, including shuttle detection and tracking, player detection and tracking, pose estimation, court analysis, event detection, and higher-level performance analysis. Separating these stages makes the system modular and easier to evaluate and improve.",
-      "generated_answer": "I don't have enough information in the provided context.",
+      "generated_answer": "I don't have enough information in the provided context to explain why badminton video analysis is better understood as a pipeline rather than a single prediction task.",
       "relevant_sources": [
         "badminton_01_overview.txt",
         "badminton_13_video_analysis_pipeline.txt"
@@ -338,17 +1141,75 @@
         "badminton_02_shuttle_detection.txt",
         "badminton_02_shuttle_detection.txt"
       ],
-      "retrieval_precision": 0.3333333333333333,
-      "retrieval_recall": 0.5,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "badminton_13_video_analysis_pipeline.txt_0",
+          "document_id": "badminton_13_video_analysis_pipeline.txt",
+          "distance": 0.5279430150985718,
+          "text": "Badminton Video Analysis Pipeline A badminton video-analysis pipeline combines several computer-vision stages to convert raw match footage into useful sports information. A typical pipeline begins with video input and may first detect the badminton court and players. Player detection can then be combined with a tracking algorithm to maintain player identities across frames. In parallel, a shuttlecock detector or TrackNet-based model can identify and track the shuttlecock. Pose estimation can provide body keypoints for the players. The extracted information can"
+        },
+        {
+          "chunk_id": "badminton_02_shuttle_detection.txt_2",
+          "document_id": "badminton_02_shuttle_detection.txt",
+          "distance": 0.5550062656402588,
+          "text": "reason, badminton-specific approaches such as TrackNet were developed to detect and track the shuttlecock using information from consecutive frames. Reliable shuttlecock detection is important because errors at this stage can affect later stages of the pipeline. Missing the shuttlecock in several frames can create gaps in its trajectory and make it harder to determine events such as hits or landing positions. In a complete badminton video-analysis system, shuttlecock detection is therefore an early stage that provides visual information required by"
+        },
+        {
+          "chunk_id": "badminton_02_shuttle_detection.txt_3",
+          "document_id": "badminton_02_shuttle_detection.txt",
+          "distance": 0.5790361762046814,
+          "text": "positions. In a complete badminton video-analysis system, shuttlecock detection is therefore an early stage that provides visual information required by downstream tracking and event-analysis components."
+        }
+      ],
+      "document_precision": 0.3333333333333333,
+      "document_recall": 0.5,
+      "context_precision": 1.0,
+      "context_recall": 0.5,
+      "context_chunk_judgments": [
+        {
+          "rank": 1,
+          "chunk_id": "badminton_13_video_analysis_pipeline.txt_0",
+          "document_id": "badminton_13_video_analysis_pipeline.txt",
+          "relevant": 1,
+          "reason": "The chunk explains the different stages of the badminton video analysis pipeline, such as court detection, player detection and tracking, shuttlecock tracking, and pose estimation, which directly relates to why it is understood as a pipeline of specialized components."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "badminton_02_shuttle_detection.txt_2",
+          "document_id": "badminton_02_shuttle_detection.txt",
+          "relevant": 1,
+          "reason": "The chunk discusses shuttle detection and tracking as an early stage of the pipeline providing information required by downstream components, supporting the idea of specialized components."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "badminton_02_shuttle_detection.txt_3",
+          "document_id": "badminton_02_shuttle_detection.txt",
+          "relevant": 1,
+          "reason": "The chunk further reinforces that shuttlecock detection is an early stage providing visual information for downstream components in a complete pipeline."
+        }
+      ],
+      "context_recall_claims": [
+        {
+          "claim": "Different stages solve different problems, including shuttle detection and tracking, player detection and tracking, pose estimation, court analysis, event detection, and higher-level performance analysis.",
+          "supported": 1,
+          "reason": "Chunks 1, 2, and 3 explicitly mention several of these stages such as court detection, player detection and tracking, shuttlecock detection and tracking, and pose estimation."
+        },
+        {
+          "claim": "Separating these stages makes the system modular and easier to evaluate and improve.",
+          "supported": 0,
+          "reason": "The retrieved chunks describe the pipeline stages and their dependencies, but they do not explicitly state that separating them makes the system modular and easier to evaluate and improve."
+        }
+      ],
       "faithfulness": 1,
-      "correctness": 0
+      "correctness": 0,
+      "ragas_style_composite": 0.625
     },
     {
       "id": "q15",
       "type": "counterfactual",
       "question": "Suppose a badminton analysis system uses YOLO to detect players and TrackNetV3 to track the shuttlecock, but the TrackNetV3 component becomes unreliable. Which types of analysis would be most affected and why?",
       "expected_answer": "Shuttle trajectory analysis would become unreliable because the shuttle's movement cannot be reconstructed accurately. Hit detection and shot classification could also be affected because they can use shuttlecock position and movement as information.",
-      "generated_answer": "Based on the provided context, the TrackNetV3 component is specialized for the shuttlecock, shuttle detection, tracking shuttle movement, and analyzing shuttlecock trajectories. Therefore, if the TrackNetV3 component becomes unreliable, the types of analysis most affected would be shuttlecock detection, shuttle tracking, shuttle movement analysis, and shuttlecock trajectory analysis.",
+      "generated_answer": "Based on the provided context, the shuttlecock-related analysis would be most affected. This includes tracking the shuttlecock, detecting shuttle trajectories, analyzing shuttle movement, and obtaining outputs such as shuttlecock coordinates for each frame, confidence information, and reconstructed track segments. This happens because TrackNetV3 is specialized specifically for the shuttlecock, handling its small and fast-moving nature, estimating its location using multiple consecutive frames, and performing trajectory-related processing and analysis.",
       "relevant_sources": [
         "badminton_17_tracknetv3.txt",
         "badminton_08_hit_detection.txt",
@@ -358,12 +1219,152 @@
       "retrieved_documents": [
         "badminton_17_tracknetv3.txt",
         "badminton_16_yolo.txt",
+        "badminton_03_shuttle_tracking.txt"
+      ],
+      "retrieved_chunks": [
+        {
+          "chunk_id": "badminton_17_tracknetv3.txt_2",
+          "document_id": "badminton_17_tracknetv3.txt",
+          "distance": 0.6543804407119751,
+          "text": "positions, and analyzing shuttle movement. TrackNetV3 is specialized for the shuttlecock and should not be confused with a general player detector such as YOLO. In a complete badminton analysis pipeline, TrackNetV3 and YOLO can therefore perform complementary roles. Reported results on the Shuttlecock Trajectory Dataset show substantially higher tracking performance for TrackNetV3 than earlier TrackNet versions and the YOLOv7 baseline."
+        },
+        {
+          "chunk_id": "badminton_16_yolo.txt_1",
+          "document_id": "badminton_16_yolo.txt",
+          "distance": 0.7553219795227051,
+          "text": "using a bounding box, which provides its approximate location in the frame. Badminton computer-vision projects can combine YOLO with other specialized models. For example, a system may use YOLO for player detection while using TrackNetV3 specifically for shuttlecock tracking. YOLO is therefore different from TrackNet. YOLO is a general object-detection approach that can detect objects such as players, while TrackNet is designed around the problem of tracking small and fast-moving sports objects such as a badminton shuttlecock. YOLO detections can"
+        },
+        {
+          "chunk_id": "badminton_03_shuttle_tracking.txt_1",
+          "document_id": "badminton_03_shuttle_tracking.txt",
+          "distance": 0.9123263955116272,
+          "text": "to handle missing detections and noisy predictions instead of assuming that the shuttlecock will be visible in every frame. TrackNet-based approaches are commonly used for badminton shuttlecock tracking. These methods use information from multiple consecutive frames to estimate the shuttlecock location. TrackNetV3 extends this type of approach with trajectory-related processing and can be used for shuttle trajectory detection and analysis. The output of tracking can include the shuttlecock coordinates for each frame, confidence information, and reconstructed track segments. A continuous"
+        }
+      ],
+      "document_precision": 0.3333333333333333,
+      "document_recall": 0.25,
+      "context_precision": 0.8333333333333333,
+      "context_recall": 0.5,
+      "context_chunk_judgments": [
+        {
+          "rank": 1,
+          "chunk_id": "badminton_17_tracknetv3.txt_2",
+          "document_id": "badminton_17_tracknetv3.txt",
+          "relevant": 1,
+          "reason": "Provides information that TrackNetV3 is specialized for analyzing shuttle movement and tracking shuttlecock trajectory."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "badminton_16_yolo.txt_1",
+          "document_id": "badminton_16_yolo.txt",
+          "relevant": 0,
+          "reason": "Only discusses general definitions of YOLO and TrackNet without explaining the effects of TrackNetV3 becoming unreliable on specific types of analysis."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "badminton_03_shuttle_tracking.txt_1",
+          "document_id": "badminton_03_shuttle_tracking.txt",
+          "relevant": 1,
+          "reason": "Supports the claim that TrackNetV3 is used for shuttle trajectory detection and analysis, and outputs shuttlecock coordinates."
+        }
+      ],
+      "context_recall_claims": [
+        {
+          "claim": "Shuttle trajectory analysis would become unreliable because the shuttle's movement cannot be reconstructed accurately.",
+          "supported": 1,
+          "reason": "Chunks 1 and 3 state that TrackNetV3 is used for analyzing shuttle movement and shuttle trajectory detection/analysis, meaning its failure would affect this analysis."
+        },
+        {
+          "claim": "Hit detection and shot classification could also be affected because they can use shuttlecock position and movement as information.",
+          "supported": 0,
+          "reason": "The retrieved chunks do not mention hit detection or shot classification."
+        }
+      ],
+      "faithfulness": 1,
+      "correctness": 1,
+      "ragas_style_composite": 0.8333333333333333
+    },
+    {
+      "id": "q16",
+      "type": "single_hop",
+      "question": "Who worked on TrackNet and what limitations did we face while using TrackNet?",
+      "expected_answer": "Arvind KG, who worked on TrackNet, noted that TrackNet can struggle with occlusions and very small or blurred objects because earlier versions rely heavily on visual cues. It can also face challenges with complex motion and varying lighting or background conditions.",
+      "generated_answer": "Based on the provided context, Arvind KG worked on TrackNet. \n\nRegarding limitations, TrackNet can struggle with occlusions and very small or blurred objects (since earlier versions rely heavily on visual cues), and it can also face challenges with the location of the shuttlecock.",
+      "relevant_sources": [
+        "badminton_04_tracknet"
+      ],
+      "retrieved_documents": [
+        "badminton_17_tracknetv3.txt",
+        "badminton_04_tracknet.txt",
         "badminton_04_tracknet.txt"
       ],
-      "retrieval_precision": 0.3333333333333333,
-      "retrieval_recall": 0.25,
+      "retrieved_chunks": [
+        {
+          "chunk_id": "badminton_17_tracknetv3.txt_2",
+          "document_id": "badminton_17_tracknetv3.txt",
+          "distance": 1.1178535223007202,
+          "text": "positions, and analyzing shuttle movement. TrackNetV3 is specialized for the shuttlecock and should not be confused with a general player detector such as YOLO. In a complete badminton analysis pipeline, TrackNetV3 and YOLO can therefore perform complementary roles. Reported results on the Shuttlecock Trajectory Dataset show substantially higher tracking performance for TrackNetV3 than earlier TrackNet versions and the YOLOv7 baseline."
+        },
+        {
+          "chunk_id": "badminton_04_tracknet.txt_2",
+          "document_id": "badminton_04_tracknet.txt",
+          "distance": 1.1297311782836914,
+          "text": "TrackNetV3 are used in badminton analysis pipelines for shuttle detection and tracking. TrackNet is primarily concerned with the shuttlecock rather than the players. Player detection, player tracking, pose estimation, and court analysis are separate components that can be combined with TrackNet in a larger badminton video-analysis system. Limitations: Comment by Arvind KG (Worked on TrackNet) TrackNet can struggle with occlusions and very small or blurred objects, since earlier versions rely heavily on visual cues. It can also face challenges with"
+        },
+        {
+          "chunk_id": "badminton_04_tracknet.txt_1",
+          "document_id": "badminton_04_tracknet.txt",
+          "distance": 1.1662191152572632,
+          "text": "location of the shuttlecock. The prediction can be represented as a heatmap showing where the shuttlecock is likely to be located. TrackNet-based systems can therefore provide shuttlecock coordinates for badminton videos. These coordinates can be connected across frames to produce a trajectory. Later versions such as TrackNetV3 provide additional functionality for badminton shuttlecock tracking and trajectory processing. Open-source implementations of TrackNetV3 are used in badminton analysis pipelines for shuttle detection and tracking. TrackNet is primarily concerned with the shuttlecock rather"
+        }
+      ],
+      "document_precision": 0.0,
+      "document_recall": 0.0,
+      "context_precision": 0.5,
+      "context_recall": 0.6666666666666666,
+      "context_chunk_judgments": [
+        {
+          "rank": 1,
+          "chunk_id": "badminton_17_tracknetv3.txt_2",
+          "document_id": "badminton_17_tracknetv3.txt",
+          "relevant": 0,
+          "reason": "Discusses TrackNetV3 performance and YOLO, but does not mention who worked on TrackNet or its limitations."
+        },
+        {
+          "rank": 2,
+          "chunk_id": "badminton_04_tracknet.txt_2",
+          "document_id": "badminton_04_tracknet.txt",
+          "relevant": 1,
+          "reason": "Explicitly mentions that Arvind KG worked on TrackNet and details its limitations regarding occlusions, very small or blurred objects, and relying heavily on visual cues."
+        },
+        {
+          "rank": 3,
+          "chunk_id": "badminton_04_tracknet.txt_1",
+          "document_id": "badminton_04_tracknet.txt",
+          "relevant": 0,
+          "reason": "Discusses shuttlecock prediction, heatmaps, and TrackNetV3 usage, but does not mention who worked on it or its limitations."
+        }
+      ],
+      "context_recall_claims": [
+        {
+          "claim": "Arvind KG worked on TrackNet",
+          "supported": 1,
+          "reason": "Explicitly stated in Chunk 2 ('Comment by Arvind KG (Worked on TrackNet)')."
+        },
+        {
+          "claim": "TrackNet can struggle with occlusions and very small or blurred objects because earlier versions rely heavily on visual cues",
+          "supported": 1,
+          "reason": "Explicitly stated in Chunk 2 ('TrackNet can struggle with occlusions and very small or blurred objects, since earlier versions rely heavily on visual cues')."
+        },
+        {
+          "claim": "It can also face challenges with complex motion and varying lighting or background conditions",
+          "supported": 0,
+          "reason": "The retrieved chunks cut off ('It can also face challenges with') and do not contain the details about complex motion and varying lighting or background conditions."
+        }
+      ],
       "faithfulness": 1,
-      "correctness": 1
+      "correctness": 1,
+      "ragas_style_composite": 0.7916666666666666
     }
   ]
 }
